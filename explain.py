@@ -6,23 +6,22 @@ from eli5 import PermutationImportance
 import eli5
 import pickle
 
-
-def perm_imput(model, X_val, y_val, return_importances=False):
+def perm_import(model, X_val, y_val, return_importances=False):
     # Load up model
     ml_model = pickle.load(open(model, "rb"))
     perm = PermutationImportance(ml_model, random_state=1).\
             fit(X_val, y_val)
-    feature_names = X_val.columns.tolist()
+    feat_name = X_val.columns.tolist()
     eli5_show_weights = eli5.show_weights(perm, 
-                        features_name=feature_names)
+                        feature_names=feat_name)
     
-    importances = eli5.explain_weights(perm, features_name=feature_names)
+    importances = eli5.explain_weights_df(perm, feature_names=feat_name)
     
     if return_importances == True:
         return importances
     
 
-def perm_input_plot(plot_importance):
+def perm_import_plot(plot_importance):
     plt.figure(figsize=(10,8))
 
     plt.errorbar(x=importances['feature'],
@@ -34,3 +33,12 @@ def perm_input_plot(plot_importance):
                  y='weight',
                  data=importances,
                  dodge=True, join=False, ci='none')
+
+
+#Partial dependeny plot
+
+def pdplot(model, X_val, feat):
+    feat_names = X_val.columns.tolist()
+    pdp_assign = pdp.pdp_isolate(model = model, dataset=X_val, model_features=feat_names, feature=feat)
+    pdp.pdp_plot(pdp_assign, feat)
+    plt.show()

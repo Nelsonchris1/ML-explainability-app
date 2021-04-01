@@ -51,16 +51,22 @@ def shapValue(model, x_train, x_val,tree_model, row_to_show=5):
     data_for_prediction_array = data_for_prediction.values.reshape(1, -1)
     #when using tree model
     if tree_model:
-        explainer = shap.TreeExplainer(ml_model)
-        shap_values = explainer.shap_values(data_for_prediction)
-        shap.initjs()
-        return shap.force_plot(explainer.expected_value[1],
-                               shap_values[1],
-                               data_for_prediction)
+        try:
+            explainer = shap.TreeExplainer(ml_model)
+            shap_values = explainer.shap_values(data_for_prediction)
+            shap.initjs()
+            return shap.force_plot(explainer.expected_value[1],
+                                shap_values[1],
+                                data_for_prediction)
+        except Exception as e:
+            print(e)
+
+            
     else:
         explainer = shap.KernelExplainer(my_model.predict_proba, x_train)
         shap_values = explainer.shap_values(data_for_prediction)
         return shap.force_plot(explainer.expected_value[1],
                                k_shap_values[1],
                                data_for_prediction)
+    
     

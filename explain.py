@@ -2,7 +2,8 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
-from eli5 import PermutationImportance
+from eli5.sklearn import PermutationImportance
+from pdpbox import pdp, get_dataset, info_plots
 import eli5
 import pickle
 

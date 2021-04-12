@@ -2,7 +2,8 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
-from eli5 import PermutationImportance
+from eli5.sklearn import PermutationImportance
+from pdpbox import pdp, get_dataset, info_plots
 import eli5
 import pickle
 
@@ -44,14 +45,29 @@ def pdplot(model, X_val, feat):
     pdp.pdp_plot(pdp_assign, feat)
     plt.show()
 
-def shapValue(model, x_val, row_to_show=5):
+def shapValue(model, x_train, x_val,tree_model, row_to_show=5):
     #open ml_model
     ml_model = pickle.load(open(model, "rb"))
     data_for_prediction = val_X.iloc[row_to_show]
     data_for_prediction_array = data_for_prediction.values.reshape(1, -1)
     #when using tree model
-    explainer = shap.TreeExplainer(ml_model)
-    shap_values = explainer.shap_values(data_for_prediction)
-    shap.initjs()
+    if tree_model:
+        try:
+            explainer = shap.TreeExplainer(ml_model)
+            shap_values = explainer.shap_values(data_for_prediction)
+            shap.initjs()
+            return shap.force_plot(explainer.expected_value[1],
+                                shap_values[1],
+                                data_for_prediction)
+        except Exception as e:
+            print(e)
 
-    return shap.force_plot(explainer.expected_value[1], shap_values[1], data_for_prediction)
+            
+    else:
+        explainer = shap.KernelExplainer(my_model.predict_proba, x_train)
+        shap_values = explainer.shap_values(data_for_prediction)
+        return shap.force_plot(explainer.expected_value[1],
+                               k_shap_values[1],
+                               data_for_prediction)
+    
+    

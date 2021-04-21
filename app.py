@@ -1,5 +1,10 @@
 import streamlit as st
 from explain import pdplot
+import pandas as pd
+import os
+import pickle
+import numpy as np
+
 
 
 st.write("""
@@ -8,11 +13,15 @@ st.write("""
 """)
 
 train_X = st.file_uploader("X_train")
+
 st.write("""
     #
      """)
 
-test_X = st.file_uploader("X_test")
+test = st.file_uploader("X_test", type=["csv", "text"])
+if test is not None:
+    test_data = pd.read_csv(test)
+    
 st.write("""
     #
      """)
@@ -31,16 +40,26 @@ model = st.file_uploader("model")
 st.write("""
     #
      """)
+if model is not None:
+    with open(os.path.join('tempdir', 'model2'),"wb") as f: 
+        f.write(model.getbuffer())
 
-allFiles = [train_X, test_X, y_train, y_test, model]
+allFiles = [train_X, test_data, y_train, y_test, model]
 
-if  st.button("Submit uploaed files"):
-    cleared = False
-    for eachFile in allFiles:
-        if not eachFile:
-            st.warning("All files need to e uploaded before submitting")
-            cleared = True
-            break
-        st.write("model interpreted")
+
+
+
+if  st.button("Submit upload files"):    
+    # cleared = True
+    # for eachFile in allFiles:
+    #     if eachFile != True:
+    #         st.warning("All files need to e uploaded before submitting")
+    #         # cleared = False
+    #         break
+
+    pdplot("tempdir/model2", test_data, "Corners")
         
+    # if cleared:
+       
+        # pdplot(model, X_val, feat)
     

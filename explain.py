@@ -6,6 +6,9 @@ from eli5.sklearn import PermutationImportance
 from pdpbox import pdp, get_dataset, info_plots
 import eli5
 import pickle
+import os
+
+
 
 def perm_import(model, X_val, y_val, return_importances=False):
     # Load up model
@@ -44,6 +47,7 @@ def pdplot(model, X_val, feat):
     pdp_assign = pdp.pdp_isolate(model = ml_model, dataset=X_val, model_features=feat_names, feature=feat)
     pdp.pdp_plot(pdp_assign, feat)
     plt.show()
+    plt.savefig('tempdir/books_read.png')
 
 def shapValue(model, x_train, x_val,tree_model, row_to_show=5):
     #open ml_model

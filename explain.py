@@ -7,6 +7,7 @@ from pdpbox import pdp, get_dataset, info_plots
 import eli5
 import pickle
 import os
+import streamlit as st
 
 
 
@@ -25,19 +26,24 @@ def perm_import(model, X_val, y_val, return_importances=False):
         return importances
     
 
-def perm_import_plot(plot_importance):
-    plt.figure(figsize=(10,8))
+def perm_import_plot(importance):
+    fig = plt.figure(figsize=(10,8))
+    
 
-    plt.errorbar(x=importances['feature'],
-                y = importances['weight'],
-                yerr=importances['std'],
-                capsize=8, fmt='none')
+    plt.errorbar(x=importance['feature'],
+                y = importance['weight'],
+                yerr=importance['std'],
+                capsize=8, fmt='none',
+                )
     plt.xticks(rotation = 90)
     sns.pointplot(x='feature',
                  y='weight',
-                 data=importances,
-                 dodge=True, join=False, ci='none')
-
+                 data=importance,
+                 dodge=True, join=False, ci='none',
+                 )
+    st.pyplot(fig)
+    # plt.show()
+    # plt.savefig('tempdir/perm_import.png')
 
 #Partial dependeny plot
 
@@ -47,7 +53,7 @@ def pdplot(model, X_val, feat):
     pdp_assign = pdp.pdp_isolate(model = ml_model, dataset=X_val, model_features=feat_names, feature=feat)
     pdp.pdp_plot(pdp_assign, feat)
     plt.show()
-    plt.savefig('tempdir/books_read.png')
+    plt.savefig('tempdir/img_pdplot.png')
 
 def shapValue(model, x_train, x_val,tree_model, row_to_show=5):
     #open ml_model

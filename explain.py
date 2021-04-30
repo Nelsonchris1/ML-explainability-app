@@ -42,8 +42,7 @@ def perm_import_plot(importance):
                  dodge=True, join=False, ci='none',
                  )
     st.pyplot(fig)
-    # plt.show()
-    # plt.savefig('tempdir/perm_import.png')
+    
 
 #Partial dependeny plot
 

@@ -70,11 +70,28 @@ if option == "ML Explain":
         feat_col_name = feat_col
         feat_Selected = st.selectbox("select column name", feat_col_name)
 
-    if  st.sidebar.button("Submit upload files"):
+    # if  st.sidebar.button("Submit upload files"):
     
-        pdplot("tempdir/model2", X_test, feat_Selected)
-        #firstly compute importance and then plot perm_importance _plot
+    radio_option = ["None","Permutation Importance","Partial Density Plot", "All"]
+    selected_explain = st.radio("Choose page:", radio_option)
+
+    if selected_explain == "Permutation Importance":
+         #firstly compute importance and then plot perm_importance _plot
         importances = perm_import(model='tempdir/model2', X_val=X_test, y_val=y_test, return_importances=True)
         st.dataframe(importances)
         perm_import_plot(importance=importances)
-        st.image("tempdir/img_pdplot.png")
+        
+    elif selected_explain == "Partial Density Plot":
+        pdplot("tempdir/model2", X_test, feat_Selected)
+        st.image('tempdir/img_pdplot.png')
+
+    elif selected_explain == "All":
+        importances = perm_import(model='tempdir/model2', X_val=X_test, y_val=y_test, return_importances=True)
+        st.dataframe(importances)
+        perm_import_plot(importance=importances)
+        pdplot("tempdir/model2", X_test, feat_Selected)
+        st.image('tempdir/img_pdplot.png')
+
+    else:
+        st.write("Click on any ML_explain to explain Model")
+            

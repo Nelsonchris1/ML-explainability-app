@@ -5,6 +5,7 @@ import seaborn as sns
 from eli5.sklearn import PermutationImportance
 from pdpbox import pdp, get_dataset, info_plots
 import eli5
+import shap
 import pickle
 import os
 import streamlit as st
@@ -46,18 +47,18 @@ def perm_import_plot(importance):
 
 #Partial dependeny plot
 
-def pdplot(model, X_val, feat):
+def pdplot(model, X_val, feat, image_name="img_pdplot.png"):
     ml_model = pickle.load(open(model, "rb"))
     feat_names = X_val.columns.tolist()
     pdp_assign = pdp.pdp_isolate(model = ml_model, dataset=X_val, model_features=feat_names, feature=feat)
     pdp.pdp_plot(pdp_assign, feat)
     plt.show()
-    plt.savefig('tempdir/img_pdplot.png')
+    plt.savefig('tempdir/'+image_name)
 
 def shapValue(model, x_train, x_val,tree_model, row_to_show=5):
     #open ml_model
     ml_model = pickle.load(open(model, "rb"))
-    data_for_prediction = val_X.iloc[row_to_show]
+    data_for_prediction = x_val.iloc[row_to_show]
     data_for_prediction_array = data_for_prediction.values.reshape(1, -1)
     #when using tree model
     if tree_model:
@@ -67,16 +68,16 @@ def shapValue(model, x_train, x_val,tree_model, row_to_show=5):
             shap.initjs()
             return shap.force_plot(explainer.expected_value[1],
                                 shap_values[1],
-                                data_for_prediction)
+                                data_for_prediction, matplotlib = True, show=False)
         except Exception as e:
             print(e)
 
             
     else:
-        explainer = shap.KernelExplainer(my_model.predict_proba, x_train)
+        explainer = shap.KernelExplainer(ml_model.predict_proba, x_train)
         shap_values = explainer.shap_values(data_for_prediction)
         return shap.force_plot(explainer.expected_value[1],
-                               k_shap_values[1],
-                               data_for_prediction)
+                               shap_values[1],
+                               data_for_prediction, matplotlib = True, show=False)
     
     

@@ -12,10 +12,10 @@ import streamlit as st
 
 
 
-def perm_import(model, X_val, y_val, return_importances=False):
+def perm_import(model, X_val, y_val, score, return_importances=False):
     # Load up model
     ml_model = pickle.load(open(model, "rb"))
-    perm = PermutationImportance(ml_model, random_state=1).\
+    perm = PermutationImportance(ml_model, scoring=score,  random_state=1).\
             fit(X_val, y_val)
     feat_name = X_val.columns.tolist()
     eli5_show_weights = eli5.show_weights(perm, 
@@ -25,6 +25,7 @@ def perm_import(model, X_val, y_val, return_importances=False):
     
     if return_importances == True:
         return importances
+    
     
 
 def perm_import_plot(importance):

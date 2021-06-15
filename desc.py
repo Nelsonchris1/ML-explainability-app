@@ -47,3 +47,28 @@ descriptive_message_temp ="""
     </div>
 
 	"""
+
+code = """feat_cols = train.columns
+            # save columns name
+with open('feat_text.txt', 'w') as f: 
+        for listem in feat_cols: 
+            f.write('%s foward slash N' % listem)
+            #replace FOWARD SLASH N with /n"""
+
+code2 = """
+#Firstly save column name before transforming
+feat_cols = trnain.columns
+
+#Include transformed data and saved feature name as parameter for pandas 
+train_X = pd.DataFrame(X_train, columns = feat_cols)
+test_X = pd.DataFrame(X_test, columns = feat_cols)
+
+#save both column name text and and   
+with open('feat_text.txt', 'w') as f:
+    f.write('%s foward slash N' % listem)
+    #replace FOWARD SLASH N with /n
+    
+    # To save dataframe
+train_X.to_csv("X_train.csv", index=False)
+test_X.to_csv("X_test.csv", index=False)
+    """

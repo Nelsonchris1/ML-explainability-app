@@ -2,6 +2,7 @@ import streamlit as st
 from explain import pdplot, perm_import, perm_import_plot, shapValue
 from desc import descriptive_message_temp as desc
 from desc import code, code2
+from remove import run_opp
 import pandas as pd
 import matplotlib.pyplot as plt
 import os
@@ -201,7 +202,9 @@ elif option == "ML Explain":
 
     if done_explaining:
         # print(os.path.join(os.getcwd(), "tempdir\img_pdplot.png"))
-        os.remove(os.path.join(os.getcwd(), "tempdir\img_pdplot2.png"))
+        # os.remove(os.path.join(os.getcwd(), "tempdir\img_pdplot2.png"))
+        run_opp()
+        
 
 elif option == "Tutorial":
     st.write("To save column names as txt file, copy and edit This simple code")

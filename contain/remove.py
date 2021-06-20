@@ -16,14 +16,15 @@ def remove_file(path):
     os.remove(path)
 
 def run_opp():
-    if os.path.exists(path):
-        for root_folders, folders, files in os.walk(path):
+    path = os.path.dirname(os.path.realpath(__file__))
+    real_path = os.path.join(path, "tempdir")
+    if os.path.exists(real_path):
+        for root_folders, folders, files in os.walk(real_path):
             for file in files:
-                file_path = os.path.join(root_folders,"tempdir", file)
-
+                file_path = os.path.join(root_folders, file)
                 if seconds >= get_file_or_folder_age(file_path):
-                    remove_file(file_path)
-                    deleted_files_count += 1
-
+                        remove_file(file_path)
+                        
+ 
     
 

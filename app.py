@@ -2,7 +2,7 @@ import streamlit as st
 from explain import pdplot, perm_import, perm_import_plot, shapValue
 from desc import descriptive_message_temp as desc
 from desc import code, code2
-from remove import run_opp
+from contain.remove import run_opp
 import pandas as pd
 import matplotlib.pyplot as plt
 import os

@@ -54,7 +54,7 @@ def pdplot(model, X_val, feat, image_name="img_pdplot.png"):
     pdp_assign = pdp.pdp_isolate(model = ml_model, dataset=X_val, model_features=feat_names, feature=feat)
     pdp.pdp_plot(pdp_assign, feat)
     plt.show()
-    plt.savefig('tempdir/'+image_name)
+    plt.savefig('contain/tempdir/'+image_name)
 
 def shapValue(model, x_train, x_val,tree_model, row_to_show=5):
     #open ml_model
@@ -75,8 +75,7 @@ def shapValue(model, x_train, x_val,tree_model, row_to_show=5):
 
             
     else:
-        # explainer = shap.KernelExplainer(ml_model.predict_proba, x_train)
-        explainer = shap.KernelExplainer(ml_model.predict, x_train)
+        explainer = shap.KernelExplainer(ml_model.predict_proba, x_train)
         shap_values = explainer.shap_values(data_for_prediction)
         return shap.force_plot(explainer.expected_value[1],
                                shap_values[1],

@@ -2,7 +2,7 @@ import streamlit as st
 from explain import pdplot, perm_import, perm_import_plot, shapValue
 from desc import descriptive_message_temp as desc
 from desc import code, code2
-from contain.remove import run_opp
+from contain.remove import run_opp, path
 import pandas as pd
 import matplotlib.pyplot as plt
 import os
@@ -67,8 +67,11 @@ elif option == "ML Explain":
         #
         """)
 
+    tempdir_path = os.path.join(path, 'tempdir')
+    print(tempdir_path)
+
     if model is not None:
-        with open(os.path.join('tempdir', 'model2'),"wb") as f:
+        with open(os.path.join('tempdir_model', 'model2'),"wb") as f: 
             f.write(model.getbuffer())
  
     features = st.sidebar.file_uploader("Upload feature as txt")
@@ -85,6 +88,10 @@ elif option == "ML Explain":
                                 'precision', 
                                 'recall',
                                ]
+
+    
+
+
         score = st.sidebar.selectbox("Select Classification score metric", classification_score)
 
         radio_option = ["None","Permutation Importance","Partial Density Plot", "Shap Values", "All"]
@@ -94,7 +101,7 @@ elif option == "ML Explain":
 
         if selected_explain == "Permutation Importance":
             #firstly compute importance and then plot perm_importance _plot
-            importances = perm_import(model='tempdir/model2', X_val=X_test, y_val=y_test, score = score, return_importances=True)
+            importances = perm_import(model='tempdir_model/model2', X_val=X_test, y_val=y_test, score = score, return_importances=True)
             st.dataframe(importances)
             perm_import_plot(importance=importances)
         
@@ -107,22 +114,22 @@ elif option == "ML Explain":
                 comapre_select = st.radio("Comapre plot", ["No", "Yes"])
                 if comapre_select == "Yes":
                     feat_compare_selected = st.selectbox("select coulumn to comapre", feat_col_name)
-                    pdplot("tempdir/model2", X_test, feat_selected)
-                    pdplot("tempdir/model2", X_test, feat_compare_selected, "img_pdplot2.png")
-                    st.image(['tempdir/img_pdplot.png', 'tempdir/img_pdplot2.png'], use_column_width=True)
+                    pdplot("tempdir_model/model2", X_test, feat_selected)
+                    pdplot("tempdir_model/model2", X_test, feat_compare_selected, "img_pdplot2.png")
+                    st.image(['contain/tempdir/img_pdplot.png', 'contain/tempdir/img_pdplot2.png'], use_column_width=True)
                 else:
-                    pdplot("tempdir/model2", X_test, feat_selected)
-                    st.image('tempdir/img_pdplot.png')
+                    pdplot("tempdir_model/model2", X_test, feat_selected)
+                    st.image('contain/tempdir/img_pdplot.png')
 
         elif selected_explain == "Shap Values":
             feat_select_shap = st.selectbox("select num of rows to predict", [0, 5, 10, 20, 30, 40, 50, 100, 200, 300])
             if feat_select_shap != 0:
-                shapValue("tempdir/model2", X_train, X_test, tree_model=False, row_to_show=feat_select_shap)
-                plt.savefig("tempdir/shapvalue.png",dpi=500, bbox_inches='tight')
-                st.image('tempdir/shapvalue.png')
+                shapValue("tempdir_model/model2", X_train, X_test, tree_model=False, row_to_show=feat_select_shap)
+                plt.savefig("contain/tempdir/shapvalue.png",dpi=500, bbox_inches='tight')
+                st.image('contain/tempdir/shapvalue.png')
 
         elif selected_explain == "All":
-            importances = perm_import(model='tempdir/model2', X_val=X_test, y_val=y_test, score = score, return_importances=True)
+            importances = perm_import(model='tempdir_model/model2', X_val=X_test, y_val=y_test, score = score, return_importances=True)
             st.dataframe(importances)
             perm_import_plot(importance=importances)
 
@@ -131,15 +138,15 @@ elif option == "ML Explain":
                 feat_col = [feature.strip() for feature in stringio.readlines()]
                 feat_col_name = feat_col
                 feat_selected = st.selectbox("select base column name", feat_col_name)
-                pdplot("tempdir/model2", X_test, feat_selected)
-                st.image('tempdir/img_pdplot.png')
+                pdplot("contain/tempdir_model/model2", X_test, feat_selected)
+                st.image('contain/tempdir/img_pdplot.png')
 
             #dispaly shap values
             feat_select_shap = st.selectbox("select num of rows to predict", [0, 5, 10, 20, 30, 40, 50, 100, 200, 300])
             if feat_select_shap != 0:
-                shapValue("tempdir/model2", X_train, X_test, tree_model=True, row_to_show=feat_select_shap)
-                plt.savefig("tempdir/shapvalue.png",dpi=500, bbox_inches='tight')
-                st.image('tempdir/shapvalue.png')
+                shapValue("tempdir_model/model2", X_train, X_test, tree_model=True, row_to_show=feat_select_shap)
+                plt.savefig("conatin/tempdir/shapvalue.png",dpi=500, bbox_inches='tight')
+                st.image('contain/tempdir/shapvalue.png')
         
 
         else:
@@ -162,7 +169,7 @@ elif option == "ML Explain":
 
         if selected_explain == "Permutation Importance":
             #firstly compute importance and then plot perm_importance _plot
-            importances = perm_import(model='tempdir/model2', X_val=X_test, y_val=y_test, score = score, return_importances=True)
+            importances = perm_import(model='tempdir_model/model2', X_val=X_test, y_val=y_test, score = score, return_importances=True)
             st.dataframe(importances)
             perm_import_plot(importance=importances)
             
@@ -175,15 +182,15 @@ elif option == "ML Explain":
                 comapre_select = st.radio("Comapre plot", ["No", "Yes"])
                 if comapre_select == "Yes":
                     feat_compare_selected = st.selectbox("select coulumn to comapre", feat_col_name)
-                    pdplot("tempdir/model2", X_test, feat_selected)
-                    pdplot("tempdir/model2", X_test, feat_compare_selected, "img_pdplot2.png")
-                    st.image(['tempdir/img_pdplot.png', 'tempdir/img_pdplot2.png'], use_column_width=True)
+                    pdplot("tempdir_model/model2", X_test, feat_selected)
+                    pdplot("tempdir_model/model2", X_test, feat_compare_selected, "img_pdplot2.png")
+                    st.image(['contain/tempdir/img_pdplot.png', 'conatain/tempdir/img_pdplot2.png'], use_column_width=True)
                 else:
-                    pdplot("tempdir/model2", X_test, feat_selected)
-                    st.image('tempdir/img_pdplot.png')
+                    pdplot("tempdir_model/model2", X_test, feat_selected)
+                    st.image('conatain/tempdir/img_pdplot.png')
 
         elif selected_explain == "All":
-            importances = perm_import(model='tempdir/model2', X_val=X_test, y_val=y_test, score = score, return_importances=True)
+            importances = perm_import(model='tempdir_model/model2', X_val=X_test, y_val=y_test, score = score, return_importances=True)
             st.dataframe(importances)
             perm_import_plot(importance=importances)
 
@@ -192,8 +199,8 @@ elif option == "ML Explain":
                 feat_col = [feature.strip() for feature in stringio.readlines()]
                 feat_col_name = feat_col
                 feat_selected = st.selectbox("select base column name", feat_col_name)
-                pdplot("tempdir/model2", X_test, feat_selected)
-                st.image('tempdir/img_pdplot.png')
+                pdplot("tempdir_model/model2", X_test, feat_selected)
+                st.image('contain/tempdir/img_pdplot.png')
         
         else:
             st.write("Click on any ML_explain to explain Model")

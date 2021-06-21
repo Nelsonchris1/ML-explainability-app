@@ -1,7 +1,7 @@
 import os
 import time
 
-path = os.getcwd()
+path = os.path.dirname(os.path.realpath(__file__))
 day = 1
 seconds = time.time() - (day * 24 * 60 * 60)
 deleted_files_count = 0
@@ -16,7 +16,6 @@ def remove_file(path):
     os.remove(path)
 
 def run_opp():
-    path = os.path.dirname(os.path.realpath(__file__))
     real_path = os.path.join(path, "tempdir")
     if os.path.exists(real_path):
         for root_folders, folders, files in os.walk(real_path):

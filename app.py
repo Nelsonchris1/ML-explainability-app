@@ -138,14 +138,14 @@ elif option == "ML Explain":
                 feat_col = [feature.strip() for feature in stringio.readlines()]
                 feat_col_name = feat_col
                 feat_selected = st.selectbox("select base column name", feat_col_name)
-                pdplot("contain/tempdir_model/model2", X_test, feat_selected)
+                pdplot("tempdir_model/model2", X_test, feat_selected)
                 st.image('contain/tempdir/img_pdplot.png')
 
             #dispaly shap values
             feat_select_shap = st.selectbox("select num of rows to predict", [0, 5, 10, 20, 30, 40, 50, 100, 200, 300])
             if feat_select_shap != 0:
-                shapValue("tempdir_model/model2", X_train, X_test, tree_model=True, row_to_show=feat_select_shap)
-                plt.savefig("conatin/tempdir/shapvalue.png",dpi=500, bbox_inches='tight')
+                shapValue("tempdir_model/model2", X_train, X_test, tree_model=False, row_to_show=feat_select_shap)
+                plt.savefig("contain/tempdir/shapvalue.png",dpi=500, bbox_inches='tight')
                 st.image('contain/tempdir/shapvalue.png')
         
 
@@ -189,6 +189,8 @@ elif option == "ML Explain":
                     pdplot("tempdir_model/model2", X_test, feat_selected)
                     st.image('conatain/tempdir/img_pdplot.png')
 
+            
+
         elif selected_explain == "All":
             importances = perm_import(model='tempdir_model/model2', X_val=X_test, y_val=y_test, score = score, return_importances=True)
             st.dataframe(importances)
@@ -215,12 +217,6 @@ elif option == "ML Explain":
 
 elif option == "Tutorial":
     st.write("To save column names as txt file, copy and edit This simple code")
-    code = """feat_cols = train.columns
-            # save columns name
-with open('feat_text.txt', 'w') as f: 
-        for listem in feat_cols: 
-            f.write('%s foward slash N' % listem)
-            #replace FOWARD SLASH N with /n"""
     st.code(code, language='python') 
 
     

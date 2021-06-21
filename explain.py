@@ -59,6 +59,7 @@ def pdplot(model, X_val, feat, image_name="img_pdplot.png"):
 def shapValue(model, x_train, x_val,tree_model, row_to_show=5):
     #open ml_model
     ml_model = pickle.load(open(model, "rb"))
+    X_train_summary = shap.kmeans(x_train, 50)
     data_for_prediction = x_val.iloc[row_to_show]
     data_for_prediction_array = data_for_prediction.values.reshape(1, -1)
     #when using tree model
@@ -75,7 +76,7 @@ def shapValue(model, x_train, x_val,tree_model, row_to_show=5):
 
             
     else:
-        explainer = shap.KernelExplainer(ml_model.predict_proba, x_train)
+        explainer = shap.KernelExplainer(ml_model.predict_proba, X_train_summary)
         shap_values = explainer.shap_values(data_for_prediction)
         return shap.force_plot(explainer.expected_value[1],
                                shap_values[1],

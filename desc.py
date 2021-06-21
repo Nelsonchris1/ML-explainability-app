@@ -40,7 +40,7 @@ descriptive_message_temp ="""
         We have 5 features namely Age, sex, location, salary, BuyOrNot to build a model that tells us if a client will 
         buy our goods or not. We have build our model and what to break down on why clients are likely not to buy.
         <br></br>
-        Using 1 row from the dataset "[Age: 20, sex: Female, location: London, BuyOrNot: NotBuy]
+        Using 1 row from the dataset "[Age: 20, sex: Female, location: London, BuyOrNot: NotBuy]"
         With partial dependency plot, we can see how the value age 20 impacts the prediction, 
         what if we want to see the impact of each value from all features all at once, SHAP Value gives room for this.
         </p>
@@ -52,8 +52,8 @@ code = """feat_cols = train.columns
             # save columns name
 with open('feat_text.txt', 'w') as f: 
         for listem in feat_cols: 
-            f.write('%s foward slash N' % listem)
-            #replace FOWARD SLASH N with /n"""
+            f.write('%s backward slash N' % listem)
+            #replace backward SLASH N with """
 
 code2 = """
 #Firstly save column name before transforming
@@ -65,8 +65,8 @@ test_X = pd.DataFrame(X_test, columns = feat_cols)
 
 #save both column name text and and   
 with open('feat_text.txt', 'w') as f:
-    f.write('%s foward slash N' % listem)
-    #replace FOWARD SLASH N with /n
+    f.write('%s backward slash N' % listem)
+    #replaceb Backward SLASH N with
     
     # To save dataframe
 train_X.to_csv("X_train.csv", index=False)

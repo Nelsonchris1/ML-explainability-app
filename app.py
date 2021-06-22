@@ -1,7 +1,7 @@
 import streamlit as st
 from explain import pdplot, perm_import, perm_import_plot, shapValue
 from desc import descriptive_message_temp as desc
-from desc import code, code2
+from desc import code, code2, overview_desc
 from contain.remove import run_opp, path
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -14,12 +14,23 @@ from io import StringIO
 
 html_txt = """<font color='blue'>Upload files to Explain</font>"""
 
+# hide_streamlit_style = '''
+#             <style>
+#             #MainMenu {visibility: hidden;}
+#             footer {visibility: hidden;}
+#             </style>
+# '''
+# st.markdown(hide_streamlit_style, unsafe_allow_html=True)
+
 #Select dashboard view from sidebar
 option = st.sidebar.selectbox("Select view", ("Home", "ML Explain", "Tutorial"))
 
 
 if option == "Home":
     st.write(desc, unsafe_allow_html=True)
+    st.sidebar.markdown(overview_desc)
+
+    
 
 elif option == "ML Explain":
     st.write("Explain My Model")
@@ -28,7 +39,7 @@ elif option == "ML Explain":
     # selected_explain = st.radio("Choose page:", radio_option)
 
 
-    st.sidebar.write(html_txt, unsafe_allow_html=True)
+    st.sidebar.markdown(html_txt, unsafe_allow_html=True)
 
     #upload neccessary files
     train = st.sidebar.file_uploader("X_train", type=["csv", "text"])
@@ -66,9 +77,6 @@ elif option == "ML Explain":
     st.write("""
         #
         """)
-
-    tempdir_path = os.path.join(path, 'tempdir')
-    print(tempdir_path)
 
     if model is not None:
         with open(os.path.join('tempdir_model', 'model2'),"wb") as f: 
@@ -210,8 +218,6 @@ elif option == "ML Explain":
     done_explaining  = st.button("Done")
 
     if done_explaining:
-        # print(os.path.join(os.getcwd(), "tempdir\img_pdplot.png"))
-        # os.remove(os.path.join(os.getcwd(), "tempdir\img_pdplot2.png"))
         run_opp()
         
 

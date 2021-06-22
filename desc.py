@@ -72,3 +72,49 @@ with open('feat_text.txt', 'w') as f:
 train_X.to_csv("X_train.csv", index=False)
 test_X.to_csv("X_test.csv", index=False)
     """
+
+
+overview_desc = """
+    
+    ------------------------
+    ## Overview
+
+    This a web app is built for easy explainabiltity of machine learning models without writing any code in order
+    to explain easily to non technicals and stake holders.
+
+    -------------------------
+    ## Contribution
+
+    This is an open source project and contributions will be greatly appreciated
+    Github [Repo](https://github.com/Nelsonchris1/ML-explainability-app)
+
+    1. Fork the [repo](https://github.com/Nelsonchris1/ML-explainability-app)
+
+    2. Clone the repo
+
+    3. Navigate to your local repository
+
+    4. Pull latest changes from upstream to local repository
+
+    5. create new branch
+
+    6. Contribute
+
+    7. Commit changes
+
+    8. Push changes to your fork
+
+    9. Begin pull request(PR)
+
+    -------------------------------
+
+    ## Connect with me
+     [![Nelson](https://img.shields.io/badge/Author-@Nelsonchris1-gray.svg?colorA=gray&colorB=dodgergreen&logo=github)](https://www.github.com/Nelsonchris1/)
+
+    [![Nelson3](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logoColor=white)](https://www.linkedin.com/in/nelson-ogbeide-013569171/)
+    
+    [![Nelson2](https://img.shields.io/badge/Twitter-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white)]((https://twitter.com/nelson_christof/))
+    
+    
+    
+    """

@@ -1,0 +1,22 @@
+body {
+    color: #fff;
+    background-color: #4F8BF9;
+}
+
+.stButton>button {
+    color: #4F8BF9;
+    border-radius: 50%;
+    height: 3em;
+    width: 3em;
+}
+
+.stTextInput>div>div>input {
+    color: #4F8BF9;
+}
+
+div.header{
+    width: 100%;
+    height: 80px;
+    display: block;
+    background-color: #101010;
+}

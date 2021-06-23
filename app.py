@@ -130,7 +130,7 @@ elif option == "ML Explain":
                     st.image('contain/tempdir/img_pdplot.png')
 
         elif selected_explain == "Shap Values":
-            feat_select_shap = st.selectbox("select num of rows to predict", [0, 5, 10, 20, 30, 40, 50, 100, 200, 300])
+            feat_select_shap = st.selectbox("select num of rows to explain", [0, 5, 10, 20, 30, 40, 50, 100, 200, 300])
             if feat_select_shap != 0:
                 shapValue("tempdir_model/model2", X_train, X_test, tree_model=False, row_to_show=feat_select_shap)
                 plt.savefig("contain/tempdir/shapvalue.png",dpi=500, bbox_inches='tight')
@@ -150,7 +150,7 @@ elif option == "ML Explain":
                 st.image('contain/tempdir/img_pdplot.png')
 
             #dispaly shap values
-            feat_select_shap = st.selectbox("select num of rows to predict", [0, 5, 10, 20, 30, 40, 50, 100, 200, 300])
+            feat_select_shap = st.selectbox("select num of rows to explain", [0, 5, 10, 20, 30, 40, 50, 100, 200, 300])
             if feat_select_shap != 0:
                 shapValue("tempdir_model/model2", X_train, X_test, tree_model=False, row_to_show=feat_select_shap)
                 plt.savefig("contain/tempdir/shapvalue.png",dpi=500, bbox_inches='tight')

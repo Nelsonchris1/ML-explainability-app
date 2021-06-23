@@ -1,7 +1,7 @@
 #Descripion of what each explain component is 
 
 descriptive_message_temp ="""
-	<div style="background-color:black;overflow-x: auto; padding:10px;border-radius:5px;margin:10px;">
+	<div style="background-color:#044269;overflow-x: auto; padding:10px;border-radius:5px;margin:10px;">
 		<h2 style="text-align:justify;color:white;padding:10px">Permutation Importance</h2>
         <h3 style="text-align:justify;color:white;padding:10px">What it is</h3>
 		<p style="color:white;">As the name implies, Permutation feature importance describes what feature from our dataset had the most impact in building our prediction model. Permutation importance is easy to understand and also fast to process. 
@@ -13,7 +13,7 @@ descriptive_message_temp ="""
         <li style="color:white;">What is the weight of the most important feature comapared to second and third feature</li>
         <br></br>
         </div>
-    <div style="background-color:black;overflow-x: auto; padding:10px;border-radius:5px;margin:10px;">
+    <div style="background-color:#044269;overflow-x: auto; padding:10px;border-radius:5px;margin:10px;">
         <h2 style="text-align:justify;color:white;padding:10px">Parital Dependancy Plot</h2>
         <h3 style="text-align:justify;color:white;padding:10px">What it is</h3>
         <p style="color:white;">Permutation importance indicates what feature contributed more to the model building,
@@ -27,7 +27,7 @@ descriptive_message_temp ="""
         <h3 style="text-align:justify;color:white;padding:10px">NOTE!!</h3>
         <p style="color:white;">Higher value on the y axis means the corresponding value on the x axis has a greater influence on the predicting class</p>
     </div>
-    <div style="background-color:black;overflow-x: auto; padding:10px;border-radius:10px;margin:10px;">
+    <div style="background-color:#044269;overflow-x: auto; padding:10px;border-radius:10px;margin:10px;">
         <h2 style="text-align:justify;color:white;padding:10px">SHAP(SHapley Additive exPlanations) values</h2>
         <h3 style="text-align:justify;color:white;padding:10px">What it is</h3>
         <p style="color:white;">

@@ -81,7 +81,3 @@ def shapValue(model, x_train, x_val,tree_model, row_to_show=5):
         return shap.force_plot(explainer.expected_value[1],
                                shap_values[1],
                                data_for_prediction, matplotlib = True, show=False)
-    
-    
-
-    

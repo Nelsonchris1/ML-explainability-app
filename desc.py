@@ -1,7 +1,11 @@
 #Descripion of what each explain component is 
 
-home_page = """
+fixed_head = """
     <h1 style="color:#d1ab69;text-align:center;letter-spacing:4px;font-family:"Times New Roman", Times, serif;" > explainMyModel </h1>
+"""
+
+home_page = """
+    
         <div style="display:flex;justify-content:space-between;background:#00172B;padding:10px;border-radius:5px;margin:10px;">
             <div style="float:right;width:30%;background:#00172B;padding:10px;border-radius:5px;margin:10px;">
                 <h3 style="color:white;letter-spacing:1px;line-height: 1.6;font-family:Arial, Helvetica, sans-serif;">
@@ -11,7 +15,7 @@ home_page = """
                     <br>
                     explainMyModel uses several model-agnostic methods to explain machine learning models by following few steps without writing code. 
                     <br><br>
-                    Currently , these methods are 
+                    Currently, these methods are 
                     <ol>
                         <li>Permutation Importance</li>
                         <li>Partial Dependancy plots</li>
@@ -20,7 +24,7 @@ home_page = """
                 </h3>
             </div>
             <div style="float:left;width:50%;background:#00172B;padding:10px;border-radius:5px;margin:10px;">
-                <img style="max-height:100%;max-width:100%; " src="ML-removebg.png">
+                <img style="max-height:100%;max-width:100%;" src="https://o.remove.bg/downloads/af4796d1-6b15-4efc-a33c-35bcb7271456/ML-removebg-preview.png">
             </div>
         </div>
 

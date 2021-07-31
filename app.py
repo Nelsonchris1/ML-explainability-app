@@ -1,7 +1,7 @@
 import streamlit as st
 from explain import pdplot, perm_import, perm_import_plot, shapValue
 from desc import descriptive_message_temp as desc
-from desc import code, code2, overview_desc, home_page
+from desc import code, code2, overview_desc, home_page, fixed_head
 from contain.remove import run_opp, path
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -11,7 +11,10 @@ import numpy as np
 import json
 from io import StringIO
 
-
+st.set_page_config(layout="wide",
+                   page_icon="🧊",
+                   page_title = "expainMymodel"
+                )
 html_txt = """<font color='blue'>Upload files to Explain</font>"""
 
 hide_streamlit_style = '''
@@ -21,6 +24,7 @@ hide_streamlit_style = '''
             </style>
 '''
 st.markdown(hide_streamlit_style, unsafe_allow_html=True)
+
 
 
 # Disable warnings
@@ -33,14 +37,18 @@ option = st.sidebar.selectbox("Select view", ("Home", "ML Explain", "Tutorial"))
 
 # Option to select different view of the app
 if option == "Home":
+    st.write(fixed_head, unsafe_allow_html=True)
     st.write(home_page, unsafe_allow_html=True)
     st.sidebar.markdown(overview_desc)
+    agree = st.checkbox('Explain these methods')
+    if agree:
+        st.write(desc, unsafe_allow_html=True)
 
     
 
 elif option == "ML Explain":
-    st.write("Explain My Model")
-    
+    st.write(fixed_head, unsafe_allow_html=True)
+
     st.sidebar.markdown(html_txt, unsafe_allow_html=True)
 
     # Upload required data and model to explain
@@ -233,6 +241,7 @@ elif option == "ML Explain":
         
 
 elif option == "Tutorial":
+    st.write(fixed_head, unsafe_allow_html=True)
     st.write("To save column names as txt file, copy and edit This simple code")
     st.code(code, language='python') 
 

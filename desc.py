@@ -1,16 +1,21 @@
 #Descripion of what each explain component is 
+import base64
 
 fixed_head = """
     <h1 style="color:#d1ab69;text-align:center;letter-spacing:4px;font-family:"Times New Roman", Times, serif;" > explainMyModel </h1>
 """
 
-home_page = """
+Image = "ML-removebg.png"
+shap_image = "SHAP.png"
+
+
+home_page = f"""
     
         <div style="display:flex;justify-content:space-between;background:#00172B;padding:10px;border-radius:5px;margin:10px;">
             <div style="float:right;width:30%;background:#00172B;padding:10px;border-radius:5px;margin:10px;">
                 <h3 style="color:white;letter-spacing:1px;line-height: 1.6;font-family:Arial, Helvetica, sans-serif;">
                     Designing black box machine learning algorithms are sometimes challenging and confusing to explain. 
-                    But in reality, there are diffrenet ways to explain these models and also understand how each featue contributes the accuracy of the model.
+                    But in reality, there are diffrenet ways to explain these models and also understand how each featue contributes to the accuracy of the model.
                     <br>
                     <br>
                     explainMyModel uses several model-agnostic methods to explain machine learning models by following few steps without writing code. 
@@ -24,19 +29,19 @@ home_page = """
                 </h3>
             </div>
             <div style="float:left;width:50%;background:#00172B;padding:10px;border-radius:5px;margin:10px;">
-                <img style="max-height:100%;max-width:100%;" src="https://o.remove.bg/downloads/af4796d1-6b15-4efc-a33c-35bcb7271456/ML-removebg-preview.png">
+                <img style="max-height:100%;max-width:100%;" src="data:image/png;base64,{base64.b64encode(open(Image, "rb").read()).decode()}">
             </div>
         </div>
 
 """
 
 
-descriptive_message_temp ="""
+descriptive_message_temp =f"""
 	<div style="background-color:#044269;overflow-x: auto; padding:10px;border-radius:5px;margin:10px;">
 		<h2 style="text-align:justify;color:white;padding:10px">Permutation Importance</h2>
         <h3 style="text-align:justify;color:white;padding:10px">What it is</h3>
 		<p style="color:white;">As the name implies, Permutation feature importance describes what feature from our dataset had the most impact in building our prediction model. Permutation importance is easy to understand and also fast to process. 
-        It is measured by checking how much your scoring metric reduces when each feature is missing from the dataset, This basically means that by repeatedly eliminating each feature, the model can be retrained to determine which function is more important and which is not.</p>
+        It is measured by checking how much your scoring metric reduces when each feature is missing from the dataset, This basically means that by repeatedly eliminating each feature, the model can be retrained to determine which feature is more important and which is not.</p>
         <p style="color:white;text-align:justify">But in reality retraining, the model by eliminating each feature can be computationally expensive, to avoid removing features and retraining, the values in a feature is reshuffled which implies random noise, this is how permutation feature is computed</p>
         <h3 style="text-align:justify;color:white;padding:10px">Questions it can answer</h3>
         <li style="color:white;">Which features were most important</li>
@@ -49,7 +54,7 @@ descriptive_message_temp ="""
         <h3 style="text-align:justify;color:white;padding:10px">What it is</h3>
         <p style="color:white;">Permutation importance indicates what feature contributed more to the model building,
          but how can we see the impact of these individual important feature. Partial dependency plot helps to visualize individual features to see their impact on the model. Partial dependency plot helps to better
-        understand the relationship between predictors and the mode. Knowing what feature is influencing the outcome 
+        understand the relationship between predictors and the model. Knowing what feature is influencing the outcome 
         of the model is great but also  know what direction it is influencing helps for better understanding.</p>
         <h3 style="text-align:justify;color:white;padding:10px">Questions it can answer</h3>
         <li style="color:white;">What are the effect of the important feature on the predictor</li>
@@ -67,13 +72,12 @@ descriptive_message_temp ="""
             Now the SHAP value breaks downs how the model works for both individual or multiple prediction(In our case,  ROW). 
             Now we can see exactly why the outcome of a prediction is the way it is due to the help of  Shap Value.
             <br></br>
-            Lets use an example to explain how it works.
-        We have 5 features namely Age, sex, location, salary, BuyOrNot to build a model that tells us if a client will 
-        buy our goods or not. We have build our model and what to break down on why clients are likely not to buy.
+            SHAP value  explains the prediction of an instance  (row or sum of rows) by calculating the contribution of each feature from that instance to the prediction.
+            Shapely values tells us how prediction is distributed to features.
+            SHAP value baselines is the average of all predictions and each SHAP value i.e. their feature and corresponding value (feat_name = 2.5) is an arrow that pushes to increase or decrease its prediction. Features values causing increased predictions are in red
         <br></br>
-        Using 1 row from the dataset "[Age: 20, sex: Female, location: London, BuyOrNot: NotBuy]"
-        With partial dependency plot, we can see how the value age 20 impacts the prediction, 
-        what if we want to see the impact of each value from all features all at once, SHAP Value gives room for this.
+        <img style="max-height:100%;max-width:100%;" src="data:image/png;base64,{base64.b64encode(open(shap_image, "rb").read()).decode()}">
+        Here 0.7 is the output prediction while 0.4979 is the baseline value. Goal scored seems to be the biggest contribution. and Ball possession feature descreases the predicitve impact the most.
         </p>
     </div>
 

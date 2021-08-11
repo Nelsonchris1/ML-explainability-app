@@ -1,0 +1,3 @@
+mkdir -p ~/.streamlit/
+
+echo " "

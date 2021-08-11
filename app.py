@@ -11,233 +11,238 @@ import os
 import numpy as np
 from io import StringIO
 
-st.set_page_config(layout='wide', page_icon='\xf0\x9f\xa7\x8a',
+def main():
+    st.set_page_config(layout='wide', page_icon='\xf0\x9f\xa7\x8a',
                    page_title='expainMymodel')
-html_txt = """<font color='blue'>Upload files to Explain</font>"""
+    html_txt = """<font color='blue'>Upload files to Explain</font>"""
 
-hide_streamlit_style = \
+    hide_streamlit_style = \
+        '''
+                <style>
+                #MainMenu {visibility: hidden;}
+                footer {visibility: hidden;}
+                </style>
     '''
-            <style>
-            #MainMenu {visibility: hidden;}
-            footer {visibility: hidden;}
-            </style>
-'''
-st.markdown(hide_streamlit_style, unsafe_allow_html=True)
+    st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
-# Disable warnings
+    # Disable warnings
 
-st.set_option('deprecation.showPyplotGlobalUse', False)
-st.set_option('deprecation.showfileUploaderEncoding', False)
+    st.set_option('deprecation.showPyplotGlobalUse', False)
+    st.set_option('deprecation.showfileUploaderEncoding', False)
 
-# Select dashboard view from sidebar
+    # Select dashboard view from sidebar
 
-option = st.sidebar.selectbox('Select view', ('Home', 'ML Explain',
-                              'Tutorial'))
+    option = st.sidebar.selectbox('Select view', ('Home', 'ML Explain',
+                                'Tutorial'))
 
-# Option to select different view of the app
+    # Option to select different view of the app
 
-if option == 'Home':
-    st.write(fixed_head, unsafe_allow_html=True)
-    st.write(home_page, unsafe_allow_html=True)
-    st.sidebar.markdown(overview_desc)
-    agree = st.checkbox('Explain these methods')
-    if agree:
-        st.write(desc, unsafe_allow_html=True)
-elif option == 'ML Explain':
+    if option == 'Home':
+        st.write(fixed_head, unsafe_allow_html=True)
+        st.write(home_page, unsafe_allow_html=True)
+        st.sidebar.markdown(overview_desc)
+        agree = st.checkbox('Explain these methods')
+        if agree:
+            st.write(desc, unsafe_allow_html=True)
+    elif option == 'ML Explain':
 
-    st.write(fixed_head, unsafe_allow_html=True)
+        st.write(fixed_head, unsafe_allow_html=True)
 
-    st.sidebar.markdown(html_txt, unsafe_allow_html=True)
+        st.sidebar.markdown(html_txt, unsafe_allow_html=True)
 
-    # Upload required data and model to explain
+        # Upload required data and model to explain
 
-    train = st.sidebar.file_uploader('X_train', type=['csv', 'text'])
-    if train:
-        X_train = pd.read_csv(train)
+        train = st.sidebar.file_uploader('X_train', type=['csv', 'text'])
+        if train:
+            X_train = pd.read_csv(train)
 
-    st.write("""
+        st.write("""
+            
+            """)
+
+        test = st.sidebar.file_uploader('X_test', type=['csv', 'text'])
+        if test is not None:
+            X_test = pd.read_csv(test)
+
+        st.write("""
+            
+            """)
+
+        train_y = st.sidebar.file_uploader('y_train', type=['csv', 'text'])
+        if train_y is not None:
+            y_train = pd.read_csv(train_y)
+
+        st.write("""
+            
+            """)
+
+        test_y = st.sidebar.file_uploader('y_test', type=['csv', 'text'])
+        if test_y is not None:
+            y_test = pd.read_csv(test_y)
+        st.write("""
+            
+            """)
+
+        model = st.sidebar.file_uploader('model')
+        st.write("""
+            
+            """)
+
+        if model is not None:
+            with open(os.path.join('tempdir_model', 'model2'), 'wb') as f:
+                f.write(model.getbuffer())
+
+        features = st.sidebar.file_uploader('Upload feature as txt')
+        st.write("""
         
         """)
 
-    test = st.sidebar.file_uploader('X_test', type=['csv', 'text'])
-    if test is not None:
-        X_test = pd.read_csv(test)
 
-    st.write("""
-        
-        """)
+        # select if regression or classiication in order to select their evaluation metric
 
-    train_y = st.sidebar.file_uploader('y_train', type=['csv', 'text'])
-    if train_y is not None:
-        y_train = pd.read_csv(train_y)
-
-    st.write("""
-        
-        """)
-
-    test_y = st.sidebar.file_uploader('y_test', type=['csv', 'text'])
-    if test_y is not None:
-        y_test = pd.read_csv(test_y)
-    st.write("""
-        
-        """)
-
-    model = st.sidebar.file_uploader('model')
-    st.write("""
-        
-        """)
-
-    if model is not None:
-        with open(os.path.join('tempdir_model', 'model2'), 'wb') as f:
-            f.write(model.getbuffer())
-
-    features = st.sidebar.file_uploader('Upload feature as txt')
-    st.write("""
-    
-    """)
+        def read_txt_and_pdplot():
+            if features:
+                stringio = StringIO(features.getvalue().decode('utf-8'))
+                feat_col = [feature.strip() for feature in
+                            stringio.readlines()]
+                feat_col_name = feat_col
+                feat_selected = st.selectbox('select base column name',
+                        feat_col_name)
+                pdplot('tempdir_model/model2', X_test, feat_selected)
+                st.image('contain/tempdir/img_pdplot.png')
 
 
-    # select if regression or classiication in order to select their evaluation metric
-
-    def read_txt_and_pdplot():
-        if features:
-            stringio = StringIO(features.getvalue().decode('utf-8'))
-            feat_col = [feature.strip() for feature in
-                        stringio.readlines()]
-            feat_col_name = feat_col
-            feat_selected = st.selectbox('select base column name',
-                    feat_col_name)
-            pdplot('tempdir_model/model2', X_test, feat_selected)
-            st.image('contain/tempdir/img_pdplot.png')
+        def plot_perm_importance():
+            importances = perm_import(model='tempdir_model/model2',
+                                    X_val=X_test, y_val=y_test,
+                                    score=score, return_importances=True)
+            st.dataframe(importances)
+            perm_import_plot(importance=importances)
 
 
-    def plot_perm_importance():
-        importances = perm_import(model='tempdir_model/model2',
-                                  X_val=X_test, y_val=y_test,
-                                  score=score, return_importances=True)
-        st.dataframe(importances)
-        perm_import_plot(importance=importances)
+        def plot_shap_values():
+            feat_select_shap = st.selectbox('select num of rows to explain'
+                    , [
+                0,
+                5,
+                10,
+                20,
+                30,
+                40,
+                50,
+                100,
+                200,
+                300,
+                ])
+            if feat_select_shap != 0:
+                shapValue('tempdir_model/model2', X_train, X_test,
+                        tree_model=False, row_to_show=feat_select_shap)
+                plt.savefig('contain/tempdir/shapvalue.png', dpi=500,
+                            bbox_inches='tight')
+                st.image('contain/tempdir/shapvalue.png')
 
 
-    def plot_shap_values():
-        feat_select_shap = st.selectbox('select num of rows to explain'
-                , [
-            0,
-            5,
-            10,
-            20,
-            30,
-            40,
-            50,
-            100,
-            200,
-            300,
-            ])
-        if feat_select_shap != 0:
-            shapValue('tempdir_model/model2', X_train, X_test,
-                      tree_model=False, row_to_show=feat_select_shap)
-            plt.savefig('contain/tempdir/shapvalue.png', dpi=500,
-                        bbox_inches='tight')
-            st.image('contain/tempdir/shapvalue.png')
+        which_ml_model = st.sidebar.selectbox('Type of ML',
+                ['Classification', 'regression'])
 
+        # ------------------CLASSIFICATION-------------------------
 
-    which_ml_model = st.sidebar.selectbox('Type of ML',
-            ['Classification', 'regression'])
+        if which_ml_model == 'Classification':
+            classification_score = ['accuracy', 'roc_auc', 'f1', 'precision'
+                                    , 'recall']
 
-    # ------------------CLASSIFICATION-------------------------
+            score = st.sidebar.selectbox('Select Classification score metric',
+                                    classification_score)
 
-    if which_ml_model == 'Classification':
-        classification_score = ['accuracy', 'roc_auc', 'f1', 'precision'
-                                , 'recall']
+            radio_option = ['None', 'Permutation Importance',
+                            'Partial Density Plot', 'Shap Values', 'All']
+            selected_explain = st.radio('Choose page:', radio_option)
 
-        score = st.sidebar.selectbox('Select Classification score metric',
-                                 classification_score)
+            if selected_explain == 'Permutation Importance':
 
-        radio_option = ['None', 'Permutation Importance',
-                        'Partial Density Plot', 'Shap Values', 'All']
-        selected_explain = st.radio('Choose page:', radio_option)
+                # compute importance and then plot perm_importance _plot
 
-        if selected_explain == 'Permutation Importance':
+                plot_perm_importance()
+            elif selected_explain == 'Partial Density Plot':
 
-            # compute importance and then plot perm_importance _plot
+                # If feature.txt is uploaded, perform pdp
+                # Read feature txt file and plot pdplot.
 
-            plot_perm_importance()
-        elif selected_explain == 'Partial Density Plot':
+                read_txt_and_pdplot()
+            elif selected_explain == 'Shap Values':
 
-            # If feature.txt is uploaded, perform pdp
-            # Read feature txt file and plot pdplot.
+            # Compute and plot Shap value
 
-            read_txt_and_pdplot()
-        elif selected_explain == 'Shap Values':
+                plot_shap_values()
+            elif selected_explain == 'All':
 
-        # Compute and plot Shap value
+            # Display all plot
+                # compute importance and then plot perm_importance _plot
 
-            plot_shap_values()
-        elif selected_explain == 'All':
+                plot_perm_importance()
 
-        # Display all plot
-            # compute importance and then plot perm_importance _plot
+                # Read feature txt file and plot pdplot.
 
-            plot_perm_importance()
+                read_txt_and_pdplot()
 
-            # Read feature txt file and plot pdplot.
+                # Plot shap values
 
-            read_txt_and_pdplot()
+                plot_shap_values()
+            else:
 
-            # Plot shap values
-
-            plot_shap_values()
+                st.write('Click on any ML_explain to explain Model')
+                
+                
+        # --------------RGRESSION-------------------
         else:
 
-            st.write('Click on any ML_explain to explain Model')
-            
-            
-    # --------------RGRESSION-------------------
-    else:
+        
 
-    
+            regression_score = ['neg_mean_absolute_error',
+                                'neg_mean_squared_error', 'r2',
+                                'neg_median_absolute_error', 'max_error']
+            score = st.sidebar.selectbox('Select Regression score metric',
+                    regression_score)
 
-        regression_score = ['neg_mean_absolute_error',
-                            'neg_mean_squared_error', 'r2',
-                            'neg_median_absolute_error', 'max_error']
-        score = st.sidebar.selectbox('Select Regression score metric',
-                regression_score)
+            radio_option = ['None', 'Permutation Importance',
+                            'Partial Density Plot', 'All']
+            selected_explain = st.radio('Choose page:', radio_option)
 
-        radio_option = ['None', 'Permutation Importance',
-                        'Partial Density Plot', 'All']
-        selected_explain = st.radio('Choose page:', radio_option)
+            if selected_explain == 'Permutation Importance':
 
-        if selected_explain == 'Permutation Importance':
+                # firstly compute importance and then plot perm_importance _plot
 
-            # firstly compute importance and then plot perm_importance _plot
+                plot_perm_importance()
+            elif selected_explain == 'Partial Density Plot':
 
-            plot_perm_importance()
-        elif selected_explain == 'Partial Density Plot':
+                read_txt_and_pdplot()
+            elif selected_explain == 'All':
 
-            read_txt_and_pdplot()
-        elif selected_explain == 'All':
+                plot_perm_importance()
 
-            plot_perm_importance()
+                # Read feature txt file and plot pdplot.
 
-            # Read feature txt file and plot pdplot.
+                read_txt_and_pdplot()
+            else:
 
-            read_txt_and_pdplot()
-        else:
+                st.write('Click on any ML_explain to explain Model')
 
-            st.write('Click on any ML_explain to explain Model')
+        done_explaining = st.button('Done')
 
-    done_explaining = st.button('Done')
+        if done_explaining:
+            run_opp()
+    elif option == 'Tutorial':
 
-    if done_explaining:
-        run_opp()
-elif option == 'Tutorial':
+        st.sidebar.markdown(overview_desc)
+        st.write(fixed_head, unsafe_allow_html=True)
+        st.write('To save column names as txt file, copy and edit This simple code'
+                )
+        st.code(code, language='python')
 
-    st.sidebar.markdown(overview_desc)
-    st.write(fixed_head, unsafe_allow_html=True)
-    st.write('To save column names as txt file, copy and edit This simple code'
-             )
-    st.code(code, language='python')
+        st.write('To transform data from array to dataframe, copy and edit this simple code'
+                )
+        st.code(code2, language='python')
 
-    st.write('To transform data from array to dataframe, copy and edit this simple code'
-             )
-    st.code(code2, language='python')
+
+if __name__ == '__main__':
+    main()

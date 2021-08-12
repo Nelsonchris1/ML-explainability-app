@@ -95,10 +95,10 @@ def main():
         #file_path  = os.path.join('tempdir_model', 'model2')
         path_to_folder = 'tempdir_model'
         if os.access(path_to_folder, os.W_OK) is not True:
-            print("Folder not writable")
+            st.write("Folder not writable")
         
         else :
-            print("Folder writable")
+            st.write("Folder writable")
         
     
         if model is not None:

@@ -96,8 +96,7 @@ def main():
         path_to_folder = 'tempdir_model'
         if os.access(path_to_folder, os.W_OK) is not True:
             print("Folder not writable")
-            os.chmod(path_to_folder, 0o777)
-            print("Now Done")
+        
         else :
             print("Folder writable")
         

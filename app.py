@@ -4,10 +4,10 @@ import streamlit as st
 from explain import pdplot, perm_import, perm_import_plot, shapValue
 from desc import descriptive_message_temp as desc
 from desc import code, code2, overview_desc, home_page, fixed_head
-from contain.remove import run_opp, path
 import pandas as pd
 import matplotlib.pyplot as plt
 import os
+import random
 import numpy as np
 from io import StringIO
 
@@ -121,25 +121,25 @@ def main():
 
 
         def plot_shap_values():
-            feat_select_shap = st.selectbox('select num of rows to explain'
-                    , [
-                0,
-                5,
-                10,
-                20,
-                30,
-                40,
-                50,
-                100,
-                200,
-                300,
-                ])
-            if feat_select_shap != 0:
-                shapValue('tempdir_model/model2', X_train, X_test,
-                        tree_model=False, row_to_show=feat_select_shap)
+
+            random_selector =  st.button('Random_row')
+
+            if random_selector:
+                random_num = random.randint(0, 20)
+                st.write(f"Displaying for row number {random_num}")
+                shapValue('tempdir_model/model2', X_train, X_test, 
+                        tree_model=False, row_to_show=random_num)
                 plt.savefig('contain/tempdir/shapvalue.png', dpi=500,
                             bbox_inches='tight')
                 st.image('contain/tempdir/shapvalue.png')
+
+
+            # if feat_select_shap != 0:
+            #     shapValue('tempdir_model/model2', X_train, X_test,
+            #             tree_model=False, row_to_show=feat_select_shap)
+            #     plt.savefig('contain/tempdir/shapvalue.png', dpi=500,
+            #                 bbox_inches='tight')
+            #     st.image('contain/tempdir/shapvalue.png')
 
 
         which_ml_model = st.sidebar.selectbox('Type of ML',
@@ -227,10 +227,9 @@ def main():
 
                 st.write('Click on any ML_explain to explain Model')
 
-        done_explaining = st.button('Done')
+        
 
-        if done_explaining:
-            run_opp()
+        
     elif option == 'Tutorial':
 
         st.sidebar.markdown(overview_desc)

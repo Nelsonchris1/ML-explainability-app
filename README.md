@@ -26,19 +26,11 @@ Currently, explainMyModel uses library **eli5** for Permutation Importance, **pd
 
 ## ✅ How to contribute
 * Fork the repo
-
 * Clone the repo
-
 * Navigate to your local repository
-
 * Pull latest changes from upstream to local repository
-
 * create new branch
-
 * Contribute
-
 * Commit changes
-
 * Push changes to your fork
-
 * Begin pull request(PR)

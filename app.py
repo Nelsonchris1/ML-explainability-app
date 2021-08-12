@@ -87,12 +87,14 @@ def main():
             
             """)
 
-        os.chmod("tempdir_model/model2", stat.S_IWOTH)
+        
         model = st.sidebar.file_uploader('model')
+        os.chmod("tempdir_model/model2", stat.S_IWOTH)
         st.write("""
             
             """)
-
+        os.umask(0)
+        # with open(os.open('filepath', os.O_CREAT | os.O_WRONLY, 0o777), 'w') as fh:
         if model is not None:
             with open(os.path.join('tempdir_model', 'model2'), 'wb') as f:
                 f.write(model.getbuffer())

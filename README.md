@@ -1,5 +1,7 @@
 # ML-explainability-app
 
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://share.streamlit.io/nelsonchris1/ml-explainability-app/main/app.py)
+
 ## ✅ Description
 Designing black box machine learning algorithms are sometimes challenging and confusing to explain. But in reality, there are diffrenet ways to explain these models and also understand how each featue contributes to the accuracy of the model.
 explainMyModel is an open source  webapp built to easily explain Supervised machine learning models merely by dragging and dropping without writing any code. 

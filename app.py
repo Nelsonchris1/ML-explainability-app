@@ -63,8 +63,9 @@ def main():
         test = st.sidebar.file_uploader('X_test', type=['csv', 'text'])
         if test is not None:
             X_test = pd.read_csv(test)
+            X_len = len(X_test)
 
-        X_len = len(X_test)
+        
 
         st.write("""
             

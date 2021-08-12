@@ -64,6 +64,8 @@ def main():
         if test is not None:
             X_test = pd.read_csv(test)
 
+        X_len = len(X_test)
+
         st.write("""
             
             """)
@@ -125,7 +127,7 @@ def main():
             random_selector =  st.button('Random_row')
 
             if random_selector:
-                random_num = random.randint(0, 20)
+                random_num = random.randint(0, X_len)
                 st.write(f"Displaying for row number {random_num}")
                 shapValue('tempdir_model/model2', X_train, X_test, 
                         tree_model=False, row_to_show=random_num)

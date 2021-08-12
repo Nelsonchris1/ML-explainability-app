@@ -114,7 +114,7 @@ overview_desc = """
     ------------------------
     ## Overview
 
-    This a web app is built for easy explainabiltity of machine learning models without writing any code in order
+    This a web app built for easy explainabiltity of machine learning models without writing any code in order
     to explain easily to non technicals and stake holders.
 
     -------------------------

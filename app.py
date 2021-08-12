@@ -87,7 +87,7 @@ def main():
             
             """)
 
-        os.chmod("tempdir_model/model", stat.S_IWOTH)
+        os.chmod("tempdir_model/model2", stat.S_IWOTH)
         model = st.sidebar.file_uploader('model')
         st.write("""
             

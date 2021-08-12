@@ -94,6 +94,8 @@ def main():
             """)
         #file_path  = os.path.join('tempdir_model', 'model2')
         path_to_folder = 'tempdir_model'
+        os.chmod(path_to_folder,0o777)
+        
         if os.access(path_to_folder, os.W_OK) is not True:
             st.write("Folder not writable")
         

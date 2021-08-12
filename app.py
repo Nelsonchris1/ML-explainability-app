@@ -7,6 +7,7 @@ from desc import code, code2, overview_desc, home_page, fixed_head
 import pandas as pd
 import matplotlib.pyplot as plt
 import os
+import stat
 import random
 import numpy as np
 from io import StringIO
@@ -86,6 +87,7 @@ def main():
             
             """)
 
+        os.chmod("tempdir_model/model", stat.S_IWOTH)
         model = st.sidebar.file_uploader('model')
         st.write("""
             

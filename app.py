@@ -96,7 +96,7 @@ def main():
         os.umask(0)
         # with open(os.open('filepath', os.O_CREAT | os.O_WRONLY, 0o777), 'w') as fh:
         if model is not None:
-            with open(os.open(file_path,os.O_CREAT | os.O_WRONLY, 0o777) 'wb') as f:
+            with open(os.open(file_path,os.O_CREAT | os.O_WRONLY, 0o777), 'wb') as f:
                 f.write(model.getbuffer())
 
         features = st.sidebar.file_uploader('Upload feature as txt')

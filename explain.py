@@ -67,7 +67,7 @@ def pdplot(
                                  feature=feat)
     pdp.pdp_plot(pdp_assign, feat)
     plt.show()
-    plt.savefig('contain/tempdir/' + image_name)
+    plt.savefig(image_name)
 
 
 def shapValue(

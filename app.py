@@ -126,7 +126,7 @@ def main():
                 feat_col_name = feat_col
                 feat_selected = st.selectbox('select base column name',
                         feat_col_name)
-                pdplot('tempdir_model/model2', X_test, feat_selected)
+                pdplot('model2', X_test, feat_selected)
                 st.image('contain/tempdir/img_pdplot.png')
 
 
@@ -145,7 +145,7 @@ def main():
             if random_selector:
                 random_num = random.randint(0, X_len)
                 st.write(f"Displaying for row number {random_num}")
-                shapValue('tempdir_model/model2', X_train, X_test, 
+                shapValue('model2', X_train, X_test, 
                         tree_model=False, row_to_show=random_num)
                 plt.savefig('contain/tempdir/shapvalue.png', dpi=500,
                             bbox_inches='tight')

@@ -13,6 +13,13 @@ import numpy as np
 from io import StringIO
 
 def main():
+
+    if os.path.exists('model2'):
+        os.remove('model2')
+    else:
+        pass
+
+
     st.set_page_config(layout='wide', page_icon='\xf0\x9f\xa7\x8a',
                    page_title='expainMymodel')
     html_txt = """<font color='blue'>Upload files to Explain</font>"""

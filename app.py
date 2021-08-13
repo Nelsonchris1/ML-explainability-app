@@ -4,21 +4,18 @@ import streamlit as st
 from explain import pdplot, perm_import, perm_import_plot, shapValue
 from desc import descriptive_message_temp as desc
 from desc import code, code2, overview_desc, home_page, fixed_head
+from remove import remove_files
 import pandas as pd
 import matplotlib.pyplot as plt
 import os
 import stat
-import random
+import random 
 import numpy as np
 from io import StringIO
 
 def main():
 
-    if os.path.exists('model2'):
-        os.remove('model2')
-    else:
-        pass
-
+    remove_files()
 
     st.set_page_config(layout='wide', page_icon='\xf0\x9f\xa7\x8a',
                    page_title='expainMymodel')
@@ -246,6 +243,11 @@ def main():
             else:
 
                 st.write('Click on any ML_explain to explain Model')
+
+        done_explaining = st.button('Done')
+
+        if done_explaining:
+            remove_files()
 
         
 

@@ -127,7 +127,7 @@ def main():
                 feat_selected = st.selectbox('select base column name',
                         feat_col_name)
                 pdplot('model2', X_test, feat_selected)
-                st.image('contain/tempdir/img_pdplot.png')
+                st.image('img_pdplot.png')
 
 
         def plot_perm_importance():
@@ -147,17 +147,12 @@ def main():
                 st.write(f"Displaying for row number {random_num}")
                 shapValue('model2', X_train, X_test, 
                         tree_model=False, row_to_show=random_num)
-                plt.savefig('contain/tempdir/shapvalue.png', dpi=500,
+                plt.savefig('shapvalue.png', dpi=500,
                             bbox_inches='tight')
-                st.image('contain/tempdir/shapvalue.png')
+                st.image('shapvalue.png')
 
 
-            # if feat_select_shap != 0:
-            #     shapValue('tempdir_model/model2', X_train, X_test,
-            #             tree_model=False, row_to_show=feat_select_shap)
-            #     plt.savefig('contain/tempdir/shapvalue.png', dpi=500,
-            #                 bbox_inches='tight')
-            #     st.image('contain/tempdir/shapvalue.png')
+           
 
 
         which_ml_model = st.sidebar.selectbox('Type of ML',

@@ -93,19 +93,22 @@ def main():
             
             """)
         #file_path  = os.path.join('tempdir_model', 'model2')
-        path_to_folder = 'tempdir_model'
-        os.chmod(path_to_folder,0o777)
+        # path_to_folder = 'tempdir_model'
+        # os.chmod(path_to_folder,0o777)
+
+        # if os.access(path_to_folder, os.W_OK) is not True:
+        #     st.write("Folder not writable")
         
-        if os.access(path_to_folder, os.W_OK) is not True:
-            st.write("Folder not writable")
-        
-        else :
-            st.write("Folder writable")
+        # else :
+        #     st.write("Folder writable")
+        if model is not None:
+            with open('model2', 'wb') as f:
+                f.write(model.getbuffer())
         
     
-        if model is not None:
-            with open(os.path.join('tempdir_model', 'model2'), 'wb') as f:
-                f.write(model.getbuffer())
+        # if model is not None:
+        #     with open(os.path.join('tempdir_model', 'model2'), 'wb') as f:
+        #         f.write(model.getbuffer())
 
         features = st.sidebar.file_uploader('Upload feature as txt')
         st.write("""
@@ -128,7 +131,7 @@ def main():
 
 
         def plot_perm_importance():
-            importances = perm_import(model='tempdir_model/model2',
+            importances = perm_import(model='model2',
                                     X_val=X_test, y_val=y_test,
                                     score=score, return_importances=True)
             st.dataframe(importances)

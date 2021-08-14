@@ -96,24 +96,13 @@ def main():
         st.write("""
             
             """)
-        #file_path  = os.path.join('tempdir_model', 'model2')
-        # path_to_folder = 'tempdir_model'
-        # os.chmod(path_to_folder,0o777)
-
-        # if os.access(path_to_folder, os.W_OK) is not True:
-        #     st.write("Folder not writable")
         
-        # else :
-        #     st.write("Folder writable")
         if model is not None:
             with open('model2', 'wb') as f:
                 f.write(model.getbuffer())
         
     
-        # if model is not None:
-        #     with open(os.path.join('tempdir_model', 'model2'), 'wb') as f:
-        #         f.write(model.getbuffer())
-
+        
         features = st.sidebar.file_uploader('Upload feature as txt')
         st.write("""
         

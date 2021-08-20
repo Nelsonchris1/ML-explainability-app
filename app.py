@@ -236,7 +236,7 @@ def main():
         done_explaining = st.button('Done')
 
         if done_explaining:
-            st.write(X_len)
+            remove_files()
 
         
 

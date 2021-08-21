@@ -9,6 +9,8 @@ from pdpbox import pdp, get_dataset, info_plots
 import eli5
 import shap
 import pickle
+import lime
+import lime.lime_tabular
 import os
 import streamlit as st
 
@@ -106,3 +108,8 @@ def shapValue(
         return shap.force_plot(explainer.expected_value[1],
                                shap_values[1], data_for_prediction,
                                matplotlib=True, show=False)
+
+
+
+def lime_explain():
+    

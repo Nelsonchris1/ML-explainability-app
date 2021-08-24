@@ -111,9 +111,13 @@ def shapValue(
 
 
 
-def lime_explain(X_train, feat, targets, target_name):
-    explainer = lime.lime_tabular.LimeTabularExplainer(X_train.values, 
+def lime_explain(x_train, x_val, feat, model, i, targets, target_name):
+    explainer = lime.lime_tabular.LimeTabularExplainer(x_train.values, 
                                                         feature_names = feat, 
                                                         class_names = [targets], 
                                                         mode='classification', 
                                                         training_labels=[target_name])
+            
+    predict_fn = lambda x: model.predict_proba(x).astype(float)
+    exp = explainer.explain_instance(x_val.values[i], predict_fn, num_features = 5)
+    exp.save_to_file('lime_explainer.html')

@@ -111,5 +111,9 @@ def shapValue(
 
 
 
-def lime_explain():
-    
+def lime_explain(X_train, feat, targets, target_name):
+    explainer = lime.lime_tabular.LimeTabularExplainer(X_train.values, 
+                                                        feature_names = feat, 
+                                                        class_names = [targets], 
+                                                        mode='classification', 
+                                                        training_labels=[target_name])

@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 import streamlit as st
-from explain import pdplot, perm_import, perm_import_plot, shapValue
+from explain import pdplot, perm_import, perm_import_plot, shapValue, lime_explain
 from desc import descriptive_message_temp as desc
 from desc import code, code2, overview_desc, home_page, fixed_head
 from remove import remove_files
@@ -145,7 +145,12 @@ def main():
                 st.image('shapvalue.png')
 
 
-           
+        def display_lime(): 
+            lime_explain(x_train=X_train, x_val=X_test, y_train = y_train,feat=features, model='model2', i=0)
+            
+            
+
+
 
 
         which_ml_model = st.sidebar.selectbox('Type of ML',
@@ -161,7 +166,7 @@ def main():
                                     classification_score)
 
             radio_option = ['None', 'Permutation Importance',
-                            'Partial Density Plot', 'Shap Values', 'All']
+                            'Partial Density Plot','Lime', 'Shap Values', 'All']
             selected_explain = st.radio('Choose page:', radio_option)
 
             if selected_explain == 'Permutation Importance':
@@ -180,6 +185,12 @@ def main():
             # Compute and plot Shap value
 
                 plot_shap_values()
+            
+            elif selected_explain == 'Lime':
+
+                display_lime()
+
+
             elif selected_explain == 'All':
 
             # Display all plot

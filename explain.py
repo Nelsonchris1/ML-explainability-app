@@ -5,6 +5,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 from eli5.sklearn import PermutationImportance
+import streamlit.components.v1 as components
 from pdpbox import pdp, get_dataset, info_plots
 import eli5
 import shap
@@ -111,13 +112,16 @@ def shapValue(
 
 
 
-def lime_explain(x_train, x_val, feat, model, i, targets, target_name):
+def lime_explain(x_train, x_val, y_train, feat, model, i):
+    ml_model = pickle.load(open(model, 'rb'))
     explainer = lime.lime_tabular.LimeTabularExplainer(x_train.values, 
                                                         feature_names = feat, 
-                                                        class_names = [targets], 
+                                                        class_names = y_train['Man of the Match'].unique(), 
                                                         mode='classification', 
-                                                        training_labels=[target_name])
+                                                        training_labels=x_train.columns.values.tolist())
             
-    predict_fn = lambda x: model.predict_proba(x).astype(float)
+    predict_fn = lambda x: ml_model.predict_proba(x).astype(float)
     exp = explainer.explain_instance(x_val.values[i], predict_fn, num_features = 5)
-    exp.save_to_file('lime_explainer.html')
+    html = exp.as_html().decode("utf-8")
+    components.html(html, height=800)
+    # exp.save_to_file('lime_explainer.html')

@@ -146,7 +146,7 @@ def main():
 
 
         def display_lime(): 
-            lime_explain(x_train=X_train, x_val=X_test, y_train = y_train,feat=features, model='model2', i=0)
+            lime_explain(x_train=X_train.astype('float'), x_val=X_test.astype('float'), y_train = y_train.astype('float'),feat=features, model='model2', i=0)
             
             
 

@@ -5,7 +5,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 from eli5.sklearn import PermutationImportance
-import streamlit.components.v1 as components
 from pdpbox import pdp, get_dataset, info_plots
 import eli5
 import shap
@@ -112,6 +111,12 @@ def shapValue(
 
 
 
+# X_train = pd.read_csv('train_X.csv')
+# X_test = pd.read_csv("test_X.csv")
+# y_train = pd.read_csv('y_test.csv')
+# with open('feat_text.txt') as f:
+#     contents = f.readlines()
+
 def lime_explain(x_train, x_val, y_train, feat, model, i):
     ml_model = pickle.load(open(model, 'rb'))
     explainer = lime.lime_tabular.LimeTabularExplainer(x_train.values, 
@@ -122,4 +127,9 @@ def lime_explain(x_train, x_val, y_train, feat, model, i):
             
     predict_fn = lambda x: ml_model.predict_proba(x).astype(float)
     exp = explainer.explain_instance(x_val.values[i], predict_fn, num_features = 5)
-    exp.save_to_files('html')
+    exp.save_to_file('lime.html')
+
+
+# lime_explain(x_train=X_train.astype('float'), x_val=X_test.astype('float'),
+#                                      y_train = y_train.astype('float'),
+#                                      feat=contents, model='model', i=0)

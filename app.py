@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 import streamlit as st
+import streamlit.components.v1 as components
 from explain import pdplot, perm_import, perm_import_plot, shapValue, lime_explain
 from desc import descriptive_message_temp as desc
 from desc import code, code2, overview_desc, home_page, fixed_head
@@ -107,18 +108,18 @@ def main():
         st.write("""
         
         """)
-
+        if features:
+                stringio = StringIO(features.getvalue().decode('utf-8')) 
+                feat_col = [feature.strip() for feature in stringio.readlines()]
+        
+        
+            
 
         # select if regression or classiication in order to select their evaluation metric
 
         def read_txt_and_pdplot():
-            if features:
-                stringio = StringIO(features.getvalue().decode('utf-8'))
-                feat_col = [feature.strip() for feature in
-                            stringio.readlines()]
-                feat_col_name = feat_col
                 feat_selected = st.selectbox('select base column name',
-                        feat_col_name)
+                        feat_col)
                 pdplot('model2', X_test, feat_selected)
                 st.image('img_pdplot.png')
 
@@ -145,8 +146,11 @@ def main():
                 st.image('shapvalue.png')
 
 
-        def display_lime(): 
-            lime_explain(x_train=X_train.astype('float'), x_val=X_test.astype('float'), y_train = y_train.astype('float'),feat=features, model='model2', i=0)
+        def display_lime():
+
+            lime_explain(x_train=X_train.astype('float'), x_val=X_test.astype('float'),
+                                    y_train = y_train.astype('float'),
+                                    feat=feat_col, model='model', i=0)
             
             
 
@@ -188,7 +192,11 @@ def main():
             
             elif selected_explain == 'Lime':
 
-                display_lime()
+               display_lime()
+               HtmlFile = open('lime.html', 'r', encoding='utf-8')
+               source_code = HtmlFile.read()
+               components.html(source_code, height=600)
+                
 
 
             elif selected_explain == 'All':

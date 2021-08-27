@@ -1,0 +1,18 @@
+Goal Scored
+Ball Possession %
+Attempts
+On-Target
+Off-Target
+Blocked
+Corners
+Offsides
+Free Kicks
+Saves
+Pass Accuracy %
+Passes
+Distance Covered (Kms)
+Fouls Committed
+Yellow Card
+Yellow & Red
+Red
+Goals in PSO

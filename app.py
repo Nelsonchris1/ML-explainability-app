@@ -150,7 +150,7 @@ def main():
 
             lime_explain(x_train=X_train.astype('float'), x_val=X_test.astype('float'),
                                     y_train = y_train.astype('float'),
-                                    feat=feat_col, model='model', i=0)
+                                    feat=feat_col, model='model2', i=0)
             
             
 
@@ -195,7 +195,7 @@ def main():
                display_lime()
                HtmlFile = open('lime.html', 'r', encoding='utf-8')
                source_code = HtmlFile.read()
-               components.html(source_code, height=600)
+               components.html(source_code, height=2000)
                 
 
 

@@ -121,7 +121,7 @@ def lime_explain(x_train, x_val, y_train, feat, model, i):
     ml_model = pickle.load(open(model, 'rb'))
     explainer = lime.lime_tabular.LimeTabularExplainer(x_train.values, 
                                                         feature_names = feat, 
-                                                        class_names = ['True', 'False'], 
+                                                        class_names = y_train.iloc[:,0].unique(), 
                                                         mode='classification', 
                                                         training_labels=x_train.columns.values.tolist())
             

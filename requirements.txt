@@ -1,9 +1,9 @@
-numpy==1.19.3
-pandas==1.2.3
 streamlit==0.83.0
-seaborn==0.11.1
 matplotlib==3.2.2
+pandas==1.2.3
+lime==0.2.0.1
 eli5==0.11.0
 PDPbox==0.2.0
 shap==0.37.0
-lime==0.2.0.1
+numpy==1.19.2
+seaborn==0.11.1

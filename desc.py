@@ -11,8 +11,8 @@ shap_image = "SHAP.png"
 
 home_page = f"""
     
-        <div style="display:flex;justify-content:space-between;background:#00172B;padding:10px;border-radius:5px;margin:10px;">
-            <div style="float:right;width:30%;background:#00172B;padding:10px;border-radius:5px;margin:10px;">
+        <div style="display:flex;justify-content:space-between;background:#01203b;padding:10px;border-radius:5px;margin:10px;">
+            <div style="float:right;width:30%;background:#01203b;padding:10px;border-radius:5px;margin:10px;">
                 <h3 style="color:white;letter-spacing:1px;line-height: 1.6;font-family:Arial, Helvetica, sans-serif;">
                     Designing black box machine learning algorithms are sometimes challenging and confusing to explain. 
                     But in reality, there are diffrenet ways to explain these models and also understand how each featue contributes to the accuracy of the model.
@@ -28,7 +28,7 @@ home_page = f"""
                     </ol>
                 </h3>
             </div>
-            <div style="float:left;width:50%;background:#00172B;padding:10px;border-radius:5px;margin:10px;">
+            <div style="float:left;width:50%;background:#01203b;padding:10px;border-radius:5px;margin:10px;">
                 <img style="max-height:100%;max-width:100%;" src="data:image/png;base64,{base64.b64encode(open(Image, "rb").read()).decode()}">
             </div>
         </div>
@@ -80,6 +80,17 @@ descriptive_message_temp =f"""
         Here 0.7 is the output prediction while 0.4979 is the baseline value. Goal scored seems to be the biggest contribution. and Ball possession feature descreases the predicitve impact the most.
         </p>
     </div>
+    <div style="background-color:#044269;overflow-x: auto; padding:10px;border-radius:5px;margin:10px;">
+        <h2 style="text-align:justify;color:white;padding:10px">LIME</h2>
+        <h3 style="text-align:justify;color:white;padding:10px">What it is</h3>
+        <p style="color:white;">Local Interpretable model-agnostic explanation is a machine learning explanation 
+         that explains the prediction of Machine learning model locally around the prediction. 
+         The technique attempts to understand the model by perturbing the input of data samples and 
+         understanding how the predictions change. Lime explains the prediction of a Machine learning model 
+         so that even non experts can easily understand and use them to solve business problems. 
+         Lime provides a quantitative understanding between the input values and the response.  
+         Lime’s output is a list of explanations reflecting the contribution of each feature to the prediction..</p>
+    </div>
 
 	"""
 
@@ -114,8 +125,7 @@ overview_desc = """
     ------------------------
     ## Overview
 
-    This is a web app built for easy explainability of machine learning models 
-    without writing any code in order to explain easily to non-technicals and stakeholders. 
+    This is a web app built for easy explainability of machine learning models without writing any code in order to explain easily to non-technicals and stakeholders. 
 
     -------------------------
     ## Contribution

@@ -13,8 +13,10 @@ explainMyModel is an open source  webapp built to easily explain Supervised mach
 | eli5  | *python library to debug ML classifier and expain thier predictions*  |
 | pdpbox | *python library used to visualize the impact of features on models* |
 | shap | *python library using game theoristic approach to explain outputs of ML models*|
+| Lime | |
 | Pandas | *python library for data manipulaion and analysis*|
 | Numpy | *Python library for numerical computation*|
+
 
 
 ## ✅ Features to implement

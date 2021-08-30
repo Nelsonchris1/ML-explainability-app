@@ -119,6 +119,12 @@ train_X.to_csv("X_train.csv", index=False)
 test_X.to_csv("X_test.csv", index=False)
     """
 
+code3 = """
+import pickle
+# save the model to disk
+filename = 'finalized_model'
+pickle.dump(model, open(filename, 'wb'))
+"""
 
 overview_desc = """
     

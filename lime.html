@@ -37089,25 +37089,25 @@
 /***/ })
 /******/ ]);
 //# sourceMappingURL=bundle.js.map </script></head><body>
-        <div class="lime top_div" id="top_divOB2DTB2OLWVCYFJ"></div>
+        <div class="lime top_div" id="top_divETOTGC70MW9103T"></div>
         
         <script>
-        var top_div = d3.select('#top_divOB2DTB2OLWVCYFJ').classed('lime top_div', true);
+        var top_div = d3.select('#top_divETOTGC70MW9103T').classed('lime top_div', true);
         
             var pp_div = top_div.append('div')
                                 .classed('lime predict_proba', true);
             var pp_svg = pp_div.append('svg').style('width', '100%');
-            var pp = new lime.PredictProba(pp_svg, ["0.0", "1.0"], [0.5, 0.5]);
+            var pp = new lime.PredictProba(pp_svg, ["0.0", "1.0"], [0.84, 0.16]);
             
         
         var exp_div;
             var exp = new lime.Explanation(["0.0", "1.0"]);
         
                 exp_div = top_div.append('div').classed('lime explanation', true);
-                exp.show([["0.00 < Goal Scored <= 1.00", 0.09642581287738565], ["3.00 < On-Target <= 5.00", 0.05933576795754002], ["Corners <= 3.00", -0.05021936390401794], ["12.00 < Attempts <= 15.00", 0.044130341147986085], ["Saves <= 1.00", 0.019740604824538942]], 1, exp_div);
+                exp.show([["Goal Scored <= 0.00", -0.2899730038683167], ["79.75 < Pass Accuracy % <= 84.00", -0.031055422781095184], ["Ball Possession % > 57.25", 0.02780318468385396], ["Distance Covered (Kms) <= 101.00", -0.023044141794195432], ["Free Kicks > 18.00", 0.02184012485981492]], 1, exp_div);
                 
         var raw_div = top_div.append('div');
-            exp.show_raw_tabular([["Goal Scored", "1.00", 0.09642581287738565], ["On-Target", "4.00", 0.05933576795754002], ["Corners", "2.00", -0.05021936390401794], ["Attempts", "14.00", 0.044130341147986085], ["Saves", "1.00", 0.019740604824538942]], 1, raw_div);
+            exp.show_raw_tabular([["Goal Scored", "0.00", -0.2899730038683167], ["Pass Accuracy %", "81.00", -0.031055422781095184], ["Ball Possession %", "58.00", 0.02780318468385396], ["Distance Covered (Kms)", "101.00", -0.023044141794195432], ["Free Kicks", "26.00", 0.02184012485981492]], 1, raw_div);
         
         </script>
         </body></html>

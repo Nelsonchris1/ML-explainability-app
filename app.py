@@ -231,17 +231,25 @@ def main():
             # Display all plot
                 # compute importance and then plot perm_importance _plot
 
+                st.write("## Permutation Importance")
+
                 plot_perm_importance()
 
                 # Read feature txt file and plot pdplot.
+
+                st.write("## Partial dependency")
 
                 read_txt_and_pdplot()
 
                 # Plot shap values
 
+                st.write("## SHAP Value")
+
                 plot_shap_values_for_all()
 
                 # plot Lime
+
+                st.write("## LIME")
 
                 display_lime_for_all()
                 

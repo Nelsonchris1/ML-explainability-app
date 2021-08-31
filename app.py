@@ -145,6 +145,17 @@ def main():
                             bbox_inches='tight')
                 st.image('shapvalue.png')
 
+        def plot_shap_values_for_all():
+
+            random_num = random.randint(0, X_len)
+            st.write(f"Displaying for row number {random_num}")
+            shapValue('model2', X_train, X_test, 
+                        tree_model=False, row_to_show=random_num)
+            plt.savefig('shapvalue.png', dpi=500,
+                            bbox_inches='tight')
+            st.image('shapvalue.png')
+            
+
 
         def display_lime():
             
@@ -158,14 +169,19 @@ def main():
                 HtmlFile = open('lime.html', 'r', encoding='utf-8')
                 source_code = HtmlFile.read()
                 components.html(source_code, height=2000)
+        
+        def display_lime_for_all():
+            random_num = random.randint(0, X_len)
+            st.write(f"Displaying for row number {random_num}")
+            lime_explain(x_train=X_train.astype('float'), x_val=X_test.astype('float'),
+                                    y_train = y_train.astype('float'),
+                                    feat=feat_col, model='model2', i=random_num)
+            HtmlFile = open('lime.html', 'r', encoding='utf-8')
+            source_code = HtmlFile.read()
+            components.html(source_code, height=2000)
 
             
             
-
-            
-            
-
-
 
 
         which_ml_model = st.sidebar.selectbox('Type of ML',
@@ -223,11 +239,11 @@ def main():
 
                 # Plot shap values
 
-                plot_shap_values()
+                plot_shap_values_for_all()
 
                 # plot Lime
 
-                display_lime()
+                display_lime_for_all()
                 
 
             else:

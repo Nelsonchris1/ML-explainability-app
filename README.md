@@ -24,7 +24,7 @@ Currently, explainMyModel uses library **eli5** for Permutation Importance, **pd
 * LIME 
 * Comparing features with pdpbox
 * Better UI
-* Add tree and deep earning explainer for shap values to imporove result speed
+* Add tree and deep earning explainer for shap values to improve result speed
 
 ## ✅ How to navigate expainMyModel
 

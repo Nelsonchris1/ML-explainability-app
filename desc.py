@@ -25,6 +25,7 @@ home_page = f"""
                         <li>Permutation Importance</li>
                         <li>Partial Dependancy plots</li>
                         <li>SHAP values</li>
+                        <li>Lime</li>
                     </ol>
                 </h3>
             </div>

@@ -134,7 +134,7 @@ def main():
 
         def plot_shap_values():
 
-            random_selector =  st.button('Random_row')
+            random_selector =  st.button('Random_row', key="shap_002")
 
             if random_selector:
                 random_num = random.randint(0, X_len)
@@ -148,7 +148,7 @@ def main():
 
         def display_lime():
             
-            random_selector = st.button('Random_row')
+            random_selector = st.button('Random_row', key="lime_001")
             if random_selector:
                 random_num = random.randint(0, X_len)
                 st.write(f"Displaying for row number {random_num}")

@@ -7,7 +7,7 @@ Designing black box machine learning algorithms are sometimes challenging and co
 explainMyModel is an open source  webapp built to easily explain Supervised machine learning models merely by dragging and dropping without writing any code. 
 
 ## ✅ Technologies and libraries used
-| Name  | Second Header |
+| Name  | Brief |
 | ------------- | ------------- |
 | Streamlit  |  *An open source app framework for building beautiful data and ML apps* |
 | eli5  | *python library to debug ML classifier and expain thier predictions*  |

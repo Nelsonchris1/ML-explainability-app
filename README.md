@@ -26,8 +26,6 @@ Currently, explainMyModel uses library **eli5** for Permutation Importance, **pd
 * Better UI
 * Add tree and deep earning explainer for shap values to improve result speed
 
-## ✅ How to navigate expainMyModel
-
 
 ## ✅ How to contribute
 * Fork the repo

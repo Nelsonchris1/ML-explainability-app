@@ -20,7 +20,11 @@ def main():
 
     st.set_page_config(layout='wide', page_icon='\xf0\x9f\xa7\x8a',
                    page_title='expainMymodel')
-    html_txt = """<font color='blue'>Upload files to Explain</font>"""
+    
+    html_txt1 = """
+        ### Currently only sklearn models are compatible
+    """
+    html_txt2 = """<font color='blue'>Upload files to Explain</font>"""
 
     hide_streamlit_style = \
         '''
@@ -53,8 +57,8 @@ def main():
     elif option == 'ML Explain':
 
         st.write(fixed_head, unsafe_allow_html=True)
-
-        st.sidebar.markdown(html_txt, unsafe_allow_html=True)
+        st.sidebar.markdown(html_txt1, unsafe_allow_html=True)
+        st.sidebar.markdown(html_txt2, unsafe_allow_html=True)
 
         # Upload required data and model to explain
 

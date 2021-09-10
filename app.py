@@ -336,17 +336,17 @@ def main():
 
                     # firstly compute importance and then plot perm_importance _plot
 
-                    plot_perm_importance()
+                    plot_perm_importance(test_x = X_test, test_y = y_test, score=score, ML_model='model2')
                 elif selected_explain == 'Partial Density Plot':
 
-                    read_txt_and_pdplot()
+                    read_txt_and_pdplot(feature=feat_col, test_X=X_test, ML_model='model2')
                 elif selected_explain == 'All':
 
-                    plot_perm_importance()
+                    plot_perm_importance(test_x = X_test, test_y = y_test, score=score, ML_model='model2')
 
                     # Read feature txt file and plot pdplot.
 
-                    read_txt_and_pdplot()
+                    read_txt_and_pdplot(feature=feat_col, test_X=X_test, ML_model='model2')
                     
                 else:
 

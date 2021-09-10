@@ -4,7 +4,7 @@ import streamlit as st
 import streamlit.components.v1 as components
 from explain import pdplot, perm_import, perm_import_plot, shapValue, lime_explain
 from desc import descriptive_message_temp as desc
-from desc import code, code2, overview_desc, home_page, fixed_head, code3
+from desc import code, code2, overview_desc, home_page, fixed_head, code3, about_me
 from remove import remove_files
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -51,6 +51,10 @@ def main():
         st.write(fixed_head, unsafe_allow_html=True)
         st.write(home_page, unsafe_allow_html=True)
         st.sidebar.markdown(overview_desc)
+        demo = st.sidebar.checkbox('App Demo')
+        if demo:
+            st.sidebar.video('https://res.cloudinary.com/nelsonchris/video/upload/v1631262570/explainMyModel_iyzlka.mp4', format='mp4')
+        st.sidebar.markdown(about_me)
         agree = st.checkbox('Explain these methods')
         if agree:
             st.write(desc, unsafe_allow_html=True)

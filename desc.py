@@ -160,6 +160,14 @@ overview_desc = """
 
     -------------------------------
 
+     """
+
+about_me =  """
+
+
+     -------------------------------
+
+
     ## Connect with me
      [![Nelson](https://img.shields.io/badge/Author-@Nelsonchris1-gray.svg?colorA=gray&colorB=dodgergreen&logo=github)](https://www.github.com/Nelsonchris1/)
 

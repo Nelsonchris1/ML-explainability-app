@@ -28,6 +28,9 @@ home_page = f"""
                         <li>Lime</li>
                     </ol>
                 </h3>
+                <h4 style="color:white;letter-spacing:1px;line-height: 1.6;font-family:Arial, Helvetica, sans-serif;">
+                    IMPORTANT NOTE!!! Keep track of encoded features so as to notice them when the app explains prediction, e.g [Male, Female] encoded to [0,1]
+                </h4>
             </div>
             <div style="float:left;width:50%;background:#01203b;padding:10px;border-radius:5px;margin:10px;">
                 <img style="max-height:100%;max-width:100%;" src="data:image/png;base64,{base64.b64encode(open(Image, "rb").read()).decode()}">

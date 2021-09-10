@@ -27,11 +27,11 @@ Currently, explainMyModel uses library **eli5** for Permutation Importance, **pd
 * Add tree and deep earning explainer for shap values to improve result speed
 
 ## ✅ Navigate explainMyModel
-#### Home 
+### Home 
 ---> Gives a brief overview about the app and also explanation about what each explain feature means and how they work
-#### explan
+### explan
 ---> This is the heart of the app, here the user uploads features on the app and selects any of the explain feature to get explanation 
-#### Tutorial
+### Tutorial
 ---> This part contains some code template to help you save some of the files required to eplain the model.  
 
 ## ✅ How to contribute

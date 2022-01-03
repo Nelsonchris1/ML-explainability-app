@@ -2,12 +2,20 @@
 # -*- coding: utf-8 -*-
 import streamlit as st
 import streamlit.components.v1 as components
+
+#explain is a custom file available in this repo
 from explain import pdplot, perm_import, perm_import_plot, shapValue, lime_explain
+
+#desc is another custom-made file available in this repo
 from desc import descriptive_message_temp as desc
 from desc import code, code2, overview_desc, home_page, fixed_head, code3, about_me
+
 from remove import remove_files
 import pandas as pd
+
+#matlplot lib used to do graph functions
 import matplotlib.pyplot as plt
+
 import os
 import stat
 import random 
@@ -43,6 +51,7 @@ def plot_shap_values(len_x, train_x, test_x, ML_model):
                                 bbox_inches='tight')
                     st.image('shapvalue.png')
 
+                  #plotting graoh
 def plot_shap_values_for_all(len_x, train_x, test_x, ML_model):
 
                 random_num = random.randint(0, len_x)
@@ -79,11 +88,12 @@ def display_lime_for_all(train_X, test_X, train_y, feature, model):
             components.html(source_code, height=2000)
 
 def main():
-
+    
+    #removing files already uploaded
     remove_files()
 
     st.set_page_config(layout='wide', page_icon='\xf0\x9f\xa7\x8a',
-                   page_title='expainMymodel')
+                   page_title='ExpainMymodel')
     
     html_txt1 = """
         ### Currently only sklearn models are compatible
@@ -320,7 +330,7 @@ def main():
             # --------------RGRESSION-------------------
             else:
 
-            
+              #scoring the ML model
 
                 regression_score = ['neg_mean_absolute_error',
                                     'neg_mean_squared_error', 'r2',
@@ -359,7 +369,7 @@ def main():
 
         
 
-        
+        # if selected Tutorial option
     elif option == 'Tutorial':
 
         st.sidebar.markdown(overview_desc)

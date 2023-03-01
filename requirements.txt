@@ -1,2 +1,11 @@
+pandas==1.2.3
+numpy==1.21.2
+lime==0.2.0.1
 streamlit==1.0.0
-
+matplotlib==3.2.2
+jinja==3.0.2
+click==7.1.2.
+eli5==0.11.0
+PDPbox==0.2.0
+shap==0.37.0
+seaborn==0.11.1

@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 import pandas as pd
+import numpy as np
 import streamlit as st
 from streamlit_option_menu import option_menu
 import matplotlib.pyplot as plt
@@ -9,7 +10,7 @@ from pathlib import Path
 
 
 from desc import opening_explanation, fixed_head, Image, shap_image, feature_names, fixed_feature_names,\
-                 feature_importance_dict ,feature_importance_title, shap_values
+                 feature_importance_dict, feature_importance_title #, shap_values, x_train
 
 from remove import remove_files
 
@@ -57,8 +58,11 @@ def plot_feature_importance(feature_importance_dict,n):
 
 
 
-def plot_shap_values(shap_values, features, top_n_features):
-    shap.summary_plot(shap_values,feature_nameslist=features, max_display=top_n_features)
+# def plot_shap_values(shap_values, x_train, top_n_features):
+#     shap.summary_plot(np.array(shap_values), feature_names=x_train ,plot_type='bar', plot_size=(6,3))
+#     st.pyplot(plt.gcf())
+#
+#     print('wtf')
 
 def plot_shap_values_for_all():
     pass
@@ -111,7 +115,7 @@ def main():
 
         plot_feature_importance(feature_importance_dict, top_n_features)
 
-        plot_shap_values(shap_values, fixed_feature_names, top_n_features)
+        # plot_shap_values(shap_values, x_train, top_n_features)
 
         print('got here')
 

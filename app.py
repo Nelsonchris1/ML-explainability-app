@@ -5,14 +5,12 @@ import numpy as np
 import streamlit as st
 from streamlit_option_menu import option_menu
 import matplotlib.pyplot as plt
-import shap
-from pathlib import Path
+# import shap
 
 
 from desc import opening_explanation, fixed_head, Image, shap_image, feature_names, fixed_feature_names,\
                  feature_importance_dict, feature_importance_title #, shap_values, x_train
 
-from remove import remove_files
 
 
 

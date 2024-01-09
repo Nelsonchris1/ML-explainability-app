@@ -1,122 +1,185 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-import pandas as pd
-import numpy as np
 import streamlit as st
+import math
 from streamlit_option_menu import option_menu
-import matplotlib.pyplot as plt
-# import shap
 
+from design import app_explanation, main_header, feature_importance_title, feature_playground,\
+                   playground_explanation, user_investigation, investigation_explanation, feature_description_title, \
+                   model_choosing_exp, features_header, features_explanation, importance_explanation, models_explanation, \
+                   space_markdown, have_fun, for_more_info, features_amount_of_features, playground_amount_of_features
 
-from desc import opening_explanation, fixed_head, Image, shap_image, feature_names, fixed_feature_names,\
-                 feature_importance_dict, feature_importance_title #, shap_values, x_train
+from model_class import models, predictions
 
-
-
-
-
-
-def read_txt_and_pdplot():
-    pass
-
-
-def plot_feature_importance(feature_importance_dict,n):
-    top_x_features = feature_importance_dict[:n]
-    top_x_features = pd.DataFrame(top_x_features).rename({0: 'Feature', 1: 'Importance'}, axis=1)
-
-
-
-    # Create a horizontal bar chart with white bars and white axes
-    fig, ax = plt.subplots(figsize=(6, 3))  # Adjust the size as needed
-    fig.patch.set_alpha(0.0)
-    ax.patch.set_alpha(0.0)
-
-    ax.barh(top_x_features['Feature'], top_x_features['Importance'], color='white')
-
-    # Customize the appearance of the chart
-    ax.set_xlabel('Importance', fontsize=7, color='white')  # Change the x-axis label size
-    ax.set_ylabel('Feature', fontsize=7, color='white')  # Change the y-axis label size
-    ax.xaxis.set_tick_params(labelsize=7, colors='white')  # Change the x-axis tick label size and color
-    ax.yaxis.set_tick_params(labelsize=7, colors='white')  # Change the y-axis tick label size and color
-
-    ax.spines['bottom'].set_color('white')
-    ax.spines['top'].set_color('white')
-    ax.spines['left'].set_color('white')
-    ax.spines['right'].set_color('white')
-
-    ax.xaxis.label.set_color('white')
-    ax.yaxis.label.set_color('white')
-
-    # Display the bar chart
-    st.pyplot(fig)
-
-    # Display the feature importances as a table
-    # st.write(feature_importance_df)
-
-
-
-
-# def plot_shap_values(shap_values, x_train, top_n_features):
-#     shap.summary_plot(np.array(shap_values), feature_names=x_train ,plot_type='bar', plot_size=(6,3))
-#     st.pyplot(plt.gcf())
-#
-#     print('wtf')
-
-def plot_shap_values_for_all():
-    pass
-                
-
+model_name = '0 days'
 
 
 def main():
 
-    st.set_page_config(layout='wide', page_icon='🤔',
-                   page_title='ExpainMymodel')
+    st.set_page_config(layout='wide', page_icon='🤔', page_title='ExplainMyModel')
 
     with st.sidebar:
         selected = option_menu(menu_title='Web Pro Identification',
-                               options=['Main', 'Playground', 'Investigate User'],
-                               icons=['house','database','file-earmark-person']
+                               options=['Main', 'Features', 'Playground', 'User Investigation'],
+                               icons=['house', 'database', 'database', 'file-earmark-person']
                                )
+        image_path = "files/ML-removebg.png"  # Change this to the actual path of your image
+        st.image(image_path, caption='', width=300)
 
-    # st.set_page_config(layout='wide', page_icon='\xf0\x9f\xa7\x8a',
-    #                page_title='ExpainMymodel')
-
-
-
-    # Select dashboard view from sidebar
-
-    # option = st.sidebar.selectbox('Select view', ('Home', 'Playground', 'Investigate User'))
-    # tab1_button = st.sidebar.button("Home", key='Home')
-    # tab2_button = st.sidebar.button("Playground", key='Playground')
-    # tab3_button = st.sidebar.button("Investigate User", key='Investigate User')
-
-    # Initialize the default tab
-    default_tab = 'tab1'
-
-    # Option to select different view of the app
 
     if selected == 'Main':
-        st.write(fixed_head, unsafe_allow_html=True)
-        st.write(opening_explanation, unsafe_allow_html=True)
+        # st.write(main_header, unsafe_allow_html=True)
+        #
+        # st.write(models_explanation, unsafe_allow_html=True)
+        #
+        # st.markdown(for_more_info, unsafe_allow_html=True)
+        #
+        # st.write(app_explanation, unsafe_allow_html=True)
+        #
+        # st.write(space_markdown, unsafe_allow_html=True)
+        #
+        # st.write(have_fun, unsafe_allow_html=True)
+
+        st.title("Web Pro Identification DS Model App")
+        st.write("We currently have two models in production - 0 days and 7 days. "
+                 "These models are meant to identify only public domain web professionals, "
+                 "within 12 hours or 7 days from signup.")
+
+        st.subheader("Model Information")
+        st.markdown("For more information about how the models were built and their performance, "
+                    "please [click here](#).")
+
+        st.subheader("App Purpose")
+        st.write("This app is aimed to help you understand how the models are making their predictions. Have fun!")
+
+
+    if selected == 'Features':
+
+        st.write(features_header, unsafe_allow_html=True)
+
+        st.write(features_explanation, unsafe_allow_html=True)
+
+        # Create a number input for selecting the number of top features to display with custom CSS
+        st.markdown(
+            """
+        <style>
+        .sidebar .sidebar-content {
+            background-image: linear-gradient(#2e7bcf,#2e7bcf);
+            color: white;
+        }
+        </style>
+        """,
+            unsafe_allow_html=True,
+        )
+
+        st.write(model_choosing_exp, unsafe_allow_html=True)
+
+        colll1, colll2, colll3, colll4 = st.columns(4)
+
+        with colll1:
+            model_name = st.selectbox("", ['0 days', '7 days'], 0)
+            model = models(model_name)
+
+        st.write(features_amount_of_features, unsafe_allow_html=True)
+        top_n_features = st.slider('You wil see the X most important features', min_value=1,
+                                         max_value=25, value=10, step=1)
+
 
         st.write(feature_importance_title, unsafe_allow_html=True)
 
-        # Create a number input for selecting the number of top features to display with custom CSS
-        col1, col2, col3, col4, col5 = st.columns(5)
+        st.write(importance_explanation, unsafe_allow_html=True)
+
+        model.plot_feature_importance(top_n_features)
+
+        st.write(feature_description_title, unsafe_allow_html=True)
+        model.feature_descriptions(tab='features')
+
+    if selected == 'Playground':
+
+        st.write(feature_playground, unsafe_allow_html=True)
+
+        st.write(playground_explanation, unsafe_allow_html=True)
+
+        st.write(model_choosing_exp, unsafe_allow_html=True)
+        colll1, colll2, colll3, colll4 = st.columns(4)
+        with colll1:
+            model_name = st.selectbox("", ['0 days', '7 days'], 0)
+            model = models(model_name)
+
+        st.write(playground_amount_of_features, unsafe_allow_html=True)
+        n = st.slider('You wil see the X most important features', min_value=1,max_value=25, value=5, step=1)
+
+        top_x_features = model.feature_importance_dict[:n]
+        top_x_features = [x[0] for x in top_x_features]
+        model.feature_descriptions(tab='playground')
+        values = {}
+        col1, col2 = st.columns(2)
+
+
+        for feature in top_x_features:
+            with col1:
+                st.markdown("<style>input[type='number'] { width: 50px !important; }</style>", unsafe_allow_html=True)
+
+                if type(model.unique_x_train_values[feature][0]) not in [int,float]:
+                    values[feature] = st.selectbox(f"{model.feature_mapping[feature][0]}" + "-     " + f"{model.feature_mapping[feature][1]}",
+                                                   sorted([x for x in model.unique_x_train_values[feature]],
+                                                          reverse=False), 0)
+
+                else:
+                    min_value = min(model.unique_x_train_values[feature])
+                    max_value = max(model.unique_x_train_values[feature])
+                    all_values = list(range(min_value, max_value + 1))
+
+                    values[feature] = st.selectbox(f"{model.feature_mapping[feature][0]}" + "-    " + f"{model.feature_mapping[feature][1]}",
+                                                   sorted(all_values, key=lambda x: (math.isnan(x), x)),0)
+
+        prediction = model.playground_predict(values)
+        prediction = 100 * round(prediction, 3)
+        predictions.append(prediction)
+
+        with col2:
+            for i in range(round(len(top_x_features)/2)):
+                st.write(space_markdown, unsafe_allow_html=True)
+                st.write(space_markdown, unsafe_allow_html=True)
+                st.write(space_markdown, unsafe_allow_html=True)
+                st.write(space_markdown, unsafe_allow_html=True)
+            st.write('The predictions is the probability of the user being a web pro', unsafe_allow_html=True)
+
+
+            coll1, coll2, col3 = st.columns(3)
+            if len(predictions) == 1:
+                coll2.metric("And the prediction is...", str(str(prediction) + '%'))
+            else:
+                coll2.metric("And the prediction is...", value=str(str(prediction) + '%'), delta = str(str(round(predictions[-1]-predictions[-2], 3)) + "%"))
+
+    if selected == 'User Investigation':
+        st.write(user_investigation, unsafe_allow_html=True)
+        st.write(investigation_explanation, unsafe_allow_html=True)
+
+        col1, col2 = st.columns(2)
         with col1:
-            st.markdown("<style>input[type='number'] { width: 50px !important; }</style>", unsafe_allow_html=True)
+            user_input = st.text_input("Enter uuid here:")
+        if user_input:
+            # Process the user input and generate a result
+            uuid = f"'{user_input}'"
+            model_0 = models("0 days")
+            model_7 = models("7 days")
 
+        button = st.markdown("""
+                            <style>
+                            div.stButton > button:first-child {
+                                  background-color: rgb(108, 133, 245);
+                                  height:3em; width:20%;
+                                  color:white;
+                            }
+                            </style>""", unsafe_allow_html=True)
 
-        top_n_features = st.slider('Select the number of features:', min_value=1,
-                                         max_value=25, value=10, step=1)
-
-        plot_feature_importance(feature_importance_dict, top_n_features)
-
-        # plot_shap_values(shap_values, x_train, top_n_features)
-
-        print('got here')
-
+        go_button = st.button("Predict")
+        if go_button:
+            prediction_0 = model_0.investigate_predict(uuid)
+            prediction_7 = model_7.investigate_predict(uuid)
+            col1.metric("In the 0 days model the probability of the user being a web pro is:", str(str(100*round(prediction_0,3)) + '%'))
+            col1.metric("In the 7 days model the probability of the user being a web pro is:", str(str(100 * round(prediction_7, 3)) + '%'))
 
 
 if __name__ == '__main__':

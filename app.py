@@ -1,389 +1,185 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 import streamlit as st
-import streamlit.components.v1 as components
+import math
+from streamlit_option_menu import option_menu
 
-#explain is a custom file available in this repo
-from explain import pdplot, perm_import, perm_import_plot, shapValue, lime_explain
+from design import app_explanation, main_header, feature_importance_title, feature_playground,\
+                   playground_explanation, user_investigation, investigation_explanation, feature_description_title, \
+                   model_choosing_exp, features_header, features_explanation, importance_explanation, models_explanation, \
+                   space_markdown, have_fun, for_more_info, features_amount_of_features, playground_amount_of_features
 
-#desc is another custom-made file available in this repo
-from desc import descriptive_message_temp as desc
-from desc import code, code2, overview_desc, home_page, fixed_head, code3, about_me
+from model_class import models, predictions
 
-from remove import remove_files
-import pandas as pd
+model_name = '0 days'
 
-#matlplot lib used to do graph functions
-import matplotlib.pyplot as plt
-
-import os
-import stat
-import random 
-import numpy as np
-from io import StringIO
-
-
-def read_txt_and_pdplot(feature, test_X, ML_model):
-                    feat_selected = st.selectbox('select base column name',
-                            feature)
-                    pdplot(ML_model, test_X, feat_selected)
-                    st.image('img_pdplot.png')
-
-
-def plot_perm_importance(test_x, test_y, score, ML_model):
-                importances = perm_import(model=ML_model,
-                                        X_val=test_x, y_val=test_y,
-                                        score=score, return_importances=True)
-                st.dataframe(importances)
-                perm_import_plot(importance=importances)
-
-
-def plot_shap_values(len_x, train_x, test_x, ML_model):
-
-                random_selector =  st.button('Random_row', key="shap_002")
-
-                if random_selector:
-                    random_num = random.randint(0, len_x)
-                    st.write(f"Displaying for row number {random_num}")
-                    shapValue(ML_model, train_x, test_x, 
-                            tree_model=False, row_to_show=random_num)
-                    plt.savefig('shapvalue.png', dpi=500,
-                                bbox_inches='tight')
-                    st.image('shapvalue.png')
-
-                  #plotting graoh
-def plot_shap_values_for_all(len_x, train_x, test_x, ML_model):
-
-                random_num = random.randint(0, len_x)
-                st.write(f"Displaying for row number {random_num}")
-                shapValue(ML_model, train_x, test_x, 
-                            tree_model=False, row_to_show=random_num)
-                plt.savefig('shapvalue.png', dpi=500,
-                                bbox_inches='tight')
-                st.image('shapvalue.png')
-                
-
-
-def display_lime(train_x, train_y, test_x, feature, model):
-                
-                random_selector = st.button('Random_row', key="lime_001")
-                if random_selector:
-                    random_num = random.randint(0, len(test_x) - 1)
-                    st.write(f"Displaying for row number {random_num}")
-                    lime_explain(x_train=train_x.astype('float'), x_val=test_x.astype('float'),
-                                        y_train = train_y.astype('float'),
-                                        feat=feature, model=model, i=random_num)
-                    HtmlFile = open('lime.html', 'r', encoding='utf-8')
-                    source_code = HtmlFile.read()
-                    components.html(source_code, height=2000)
-            
-def display_lime_for_all(train_X, test_X, train_y, feature, model):
-            random_num = random.randint(0, len(test_X) - 1)
-            st.write(f"Displaying for row number {random_num}")
-            lime_explain(x_train=train_X.astype('float'), x_val=test_X.astype('float'),
-                                    y_train = train_y.astype('float'),
-                                    feat=feature, model=model, i=random_num)
-            HtmlFile = open('lime.html', 'r', encoding='utf-8')
-            source_code = HtmlFile.read()
-            components.html(source_code, height=2000)
 
 def main():
-    
-    #removing files already uploaded
-    remove_files()
 
-    st.set_page_config(layout='wide', page_icon='\xf0\x9f\xa7\x8a',
-                   page_title='ExpainMymodel')
-    
-    html_txt1 = """
-        ### Currently only sklearn models are compatible
-    """
-    html_txt2 = """<font color='blue'>Upload files to Explain</font>"""
+    st.set_page_config(layout='wide', page_icon='🤔', page_title='ExplainMyModel')
 
-    hide_streamlit_style = \
-        '''
-                <style>
-                #MainMenu {visibility: hidden;}
-                footer {visibility: hidden;}
-                </style>
-    '''
-    st.markdown(hide_streamlit_style, unsafe_allow_html=True)
-
-    # Disable warnings
-
-    st.set_option('deprecation.showPyplotGlobalUse', False)
-    st.set_option('deprecation.showfileUploaderEncoding', False)
-
-    # Select dashboard view from sidebar
-
-    option = st.sidebar.selectbox('Select view', ('Home', 'ML Explain',
-                                'Tutorial'))
-
-    # Option to select different view of the app
-
-    if option == 'Home':
-        st.write(fixed_head, unsafe_allow_html=True)
-        st.write(home_page, unsafe_allow_html=True)
-        st.sidebar.markdown(overview_desc)
-        demo = st.sidebar.checkbox('Video Demo')
-        if demo:
-            st.sidebar.video('https://res.cloudinary.com/nelsonchris/video/upload/v1631262570/explainMyModel_iyzlka.mp4', format='mp4')
-        st.sidebar.markdown(about_me)
-        agree = st.checkbox('Explain these methods')
-        if agree:
-            st.write(desc, unsafe_allow_html=True)
-            
-
-    elif option == 'ML Explain':
-
-        st.write(fixed_head, unsafe_allow_html=True)
-        st.sidebar.markdown(html_txt1, unsafe_allow_html=True)
-        st.sidebar.markdown(html_txt2, unsafe_allow_html=True)
-        
-        demo_explain = st.sidebar.checkbox('App demo with custom dataset')
-
-        if demo_explain:
-            st.sidebar.write("Decision Tree model built to predict if a football team went home with the Man of the match award or not. The explain methods explains the contribution of each feature to the prediction")
-            X_train_path = os.path.join("Classification", "train_X.csv")
-            X_test_path = os.path.join("Classification", "test_X.csv")
-            y_train_path = os.path.join("Classification", "y_train.csv")
-            y_test_path = os.path.join("Classification", "y_test.csv")
-            feat_text_path = os.path.join("Classification", "feat_text.txt")
-            model_path = os.path.join("Classification", "model")
+    with st.sidebar:
+        selected = option_menu(menu_title='Web Pro Identification',
+                               options=['Main', 'Features', 'Playground', 'User Investigation'],
+                               icons=['house', 'database', 'database', 'file-earmark-person']
+                               )
+        image_path = "files/ML-removebg.png"  # Change this to the actual path of your image
+        st.image(image_path, caption='', width=300)
 
 
-            X_train = pd.read_csv(X_train_path)
-            X_test = pd.read_csv(X_test_path)
-            X_len = len(X_test) -1
-            y_train = pd.read_csv(y_train_path)
-            y_test = pd.read_csv(y_test_path)
+    if selected == 'Main':
+        # st.write(main_header, unsafe_allow_html=True)
+        #
+        # st.write(models_explanation, unsafe_allow_html=True)
+        #
+        # st.markdown(for_more_info, unsafe_allow_html=True)
+        #
+        # st.write(app_explanation, unsafe_allow_html=True)
+        #
+        # st.write(space_markdown, unsafe_allow_html=True)
+        #
+        # st.write(have_fun, unsafe_allow_html=True)
 
-            with open(feat_text_path, "r") as f:
-                file = f.readlines()
-            contents = [feature.strip() for feature in file]
+        st.title("Web Pro Identification DS Model App")
+        st.write("We currently have two models in production - 0 days and 7 days. "
+                 "These models are meant to identify only public domain web professionals, "
+                 "within 12 hours or 7 days from signup.")
 
-            st.write("## Permutation Importance")
-            plot_perm_importance(test_x=X_test, test_y=y_test, score="accuracy",ML_model='Classification/model')
+        st.subheader("Model Information")
+        st.markdown("For more information about how the models were built and their performance, "
+                    "please [click here](#).")
 
-            st.write("## Partial dependency")
-            read_txt_and_pdplot(feature=contents, test_X=X_test, ML_model='Classification/model')
-
-            st.write("## SHAP")
-            plot_shap_values_for_all(len_x=X_len, train_x=X_train, test_x=X_test, ML_model='Classification/model')
-
-            st.write("## LIME")
-            display_lime_for_all(train_X=X_train, train_y=y_train
-                                ,test_X=X_test, feature=contents, model='Classification/model')
-            
-            done_explaining = st.button('Done')
-
-            if done_explaining:
-                remove_files()
-
-            
-
-            
-        # Upload required data and model to explain
-
-        else:
-            
-            train = st.sidebar.file_uploader('X_train', type=['csv', 'text'])
-            if train:
-                X_train = pd.read_csv(train)
-
-            st.write("""
-                
-                """)
-
-            test = st.sidebar.file_uploader('X_test', type=['csv', 'text'])
-            if test is not None:
-                X_test = pd.read_csv(test)
-                X_len = len(X_test) - 1
-
-            
-
-            st.write("""
-                
-                """)
-
-            train_y = st.sidebar.file_uploader('y_train', type=['csv', 'text'])
-            if train_y is not None:
-                y_train = pd.read_csv(train_y)
-
-            st.write("""
-                
-                """)
-
-            test_y = st.sidebar.file_uploader('y_test', type=['csv', 'text'])
-            if test_y is not None:
-                y_test = pd.read_csv(test_y)
-            st.write("""
-                
-                """)
-
-            
-            model = st.sidebar.file_uploader('model')
-            st.write("""
-                
-                """)
-            
-            if model is not None:
-                with open('model2', 'wb') as f:
-                    f.write(model.getbuffer())
-            
-        
-            
-            features = st.sidebar.file_uploader('Upload feature as txt')
-            st.write("""
-            
-            """)
-            if features:
-                    stringio = StringIO(features.getvalue().decode('utf-8')) 
-                    feat_col = [feature.strip() for feature in stringio.readlines()]
-            
-            
-                
-
-            # select if regression or classiication in order to select their evaluation metric
-
-            
-
-                
-                
+        st.subheader("App Purpose")
+        st.write("This app is aimed to help you understand how the models are making their predictions. Have fun!")
 
 
-            which_ml_model = st.sidebar.selectbox('Type of ML',
-                    ['Classification', 'regression'])
+    if selected == 'Features':
 
-            # ------------------CLASSIFICATION-------------------------
+        st.write(features_header, unsafe_allow_html=True)
 
-            if which_ml_model == 'Classification':
-                classification_score = ['accuracy', 'roc_auc', 'f1', 'precision'
-                                        , 'recall']
+        st.write(features_explanation, unsafe_allow_html=True)
 
-                score = st.sidebar.selectbox('Select Classification score metric',
-                                        classification_score)
+        # Create a number input for selecting the number of top features to display with custom CSS
+        st.markdown(
+            """
+        <style>
+        .sidebar .sidebar-content {
+            background-image: linear-gradient(#2e7bcf,#2e7bcf);
+            color: white;
+        }
+        </style>
+        """,
+            unsafe_allow_html=True,
+        )
 
-                radio_option = ['None', 'Permutation Importance',
-                                'Partial Density Plot','Lime', 'Shap Values', 'All']
-                selected_explain = st.radio('Choose page:', radio_option)
+        st.write(model_choosing_exp, unsafe_allow_html=True)
 
-                if selected_explain == 'Permutation Importance':
+        colll1, colll2, colll3, colll4 = st.columns(4)
 
-                    # compute importance and then plot perm_importance _plot
+        with colll1:
+            model_name = st.selectbox("", ['0 days', '7 days'], 0)
+            model = models(model_name)
 
-                    plot_perm_importance(test_x = X_test, test_y = y_test, score=score, ML_model='model2')
-                elif selected_explain == 'Partial Density Plot':
-
-                    # If feature.txt is uploaded, perform pdp
-                    # Read feature txt file and plot pdplot.
-
-                    read_txt_and_pdplot(feature=feat_col, test_X=X_test, ML_model='model2')
-                elif selected_explain == 'Shap Values':
-
-                # Compute and plot Shap value
-
-                    plot_shap_values(len_x=X_len, train_x=X_train, test_x=X_test, ML_model='model2')
-                
-                elif selected_explain == 'Lime':
-
-                # Compute and plot lime values
-
-                    display_lime(train_x=X_train, test_x=X_test, train_y=y_train, feature=feat_col, model='model2')
-                
-                    
+        st.write(features_amount_of_features, unsafe_allow_html=True)
+        top_n_features = st.slider('You wil see the X most important features', min_value=1,
+                                         max_value=25, value=10, step=1)
 
 
-                elif selected_explain == 'All':
+        st.write(feature_importance_title, unsafe_allow_html=True)
 
-                # Display all plot
-                    # compute importance and then plot perm_importance _plot
+        st.write(importance_explanation, unsafe_allow_html=True)
 
-                    st.write("## Permutation Importance")
+        model.plot_feature_importance(top_n_features)
 
-                    plot_perm_importance(test_x = X_test, test_y = y_test, score=score, ML_model='model2')
+        st.write(feature_description_title, unsafe_allow_html=True)
+        model.feature_descriptions(tab='features')
 
-                    # Read feature txt file and plot pdplot.
+    if selected == 'Playground':
 
-                    st.write("## Partial dependency")
+        st.write(feature_playground, unsafe_allow_html=True)
 
-                    read_txt_and_pdplot(feature=feat_col, test_X=X_test, ML_model='model2')
+        st.write(playground_explanation, unsafe_allow_html=True)
 
-                    # Plot shap values
+        st.write(model_choosing_exp, unsafe_allow_html=True)
+        colll1, colll2, colll3, colll4 = st.columns(4)
+        with colll1:
+            model_name = st.selectbox("", ['0 days', '7 days'], 0)
+            model = models(model_name)
 
-                    st.write("## SHAP Value")
+        st.write(playground_amount_of_features, unsafe_allow_html=True)
+        n = st.slider('You wil see the X most important features', min_value=1,max_value=25, value=5, step=1)
 
-                    plot_shap_values_for_all(len_x=X_len, train_x=X_train, test_x=X_test, ML_model='model2')
+        top_x_features = model.feature_importance_dict[:n]
+        top_x_features = [x[0] for x in top_x_features]
+        model.feature_descriptions(tab='playground')
+        values = {}
+        col1, col2 = st.columns(2)
 
-                    # plot Lime
 
-                    st.write("## LIME")
+        for feature in top_x_features:
+            with col1:
+                st.markdown("<style>input[type='number'] { width: 50px !important; }</style>", unsafe_allow_html=True)
 
-                    display_lime_for_all(train_X=X_train, test_X=X_test, train_y=y_train, feature=feat_col, model='model2')
-                    
+                if type(model.unique_x_train_values[feature][0]) not in [int,float]:
+                    values[feature] = st.selectbox(f"{model.feature_mapping[feature][0]}" + "-     " + f"{model.feature_mapping[feature][1]}",
+                                                   sorted([x for x in model.unique_x_train_values[feature]],
+                                                          reverse=False), 0)
 
                 else:
+                    min_value = min(model.unique_x_train_values[feature])
+                    max_value = max(model.unique_x_train_values[feature])
+                    all_values = list(range(min_value, max_value + 1))
 
-                    st.write('Click on any ML_explain to explain Model')
-                    
-                    
-            # --------------RGRESSION-------------------
+                    values[feature] = st.selectbox(f"{model.feature_mapping[feature][0]}" + "-    " + f"{model.feature_mapping[feature][1]}",
+                                                   sorted(all_values, key=lambda x: (math.isnan(x), x)),0)
+
+        prediction = model.playground_predict(values)
+        prediction = 100 * round(prediction, 3)
+        predictions.append(prediction)
+
+        with col2:
+            for i in range(round(len(top_x_features)/2)):
+                st.write(space_markdown, unsafe_allow_html=True)
+                st.write(space_markdown, unsafe_allow_html=True)
+                st.write(space_markdown, unsafe_allow_html=True)
+                st.write(space_markdown, unsafe_allow_html=True)
+            st.write('The predictions is the probability of the user being a web pro', unsafe_allow_html=True)
+
+
+            coll1, coll2, col3 = st.columns(3)
+            if len(predictions) == 1:
+                coll2.metric("And the prediction is...", str(str(prediction) + '%'))
             else:
+                coll2.metric("And the prediction is...", value=str(str(prediction) + '%'), delta = str(str(round(predictions[-1]-predictions[-2], 3)) + "%"))
 
-              #scoring the ML model
+    if selected == 'User Investigation':
+        st.write(user_investigation, unsafe_allow_html=True)
+        st.write(investigation_explanation, unsafe_allow_html=True)
 
-                regression_score = ['neg_mean_absolute_error',
-                                    'neg_mean_squared_error', 'r2',
-                                    'neg_median_absolute_error', 'max_error']
-                score = st.sidebar.selectbox('Select Regression score metric',
-                        regression_score)
+        col1, col2 = st.columns(2)
+        with col1:
+            user_input = st.text_input("Enter uuid here:")
+        if user_input:
+            # Process the user input and generate a result
+            uuid = f"'{user_input}'"
+            model_0 = models("0 days")
+            model_7 = models("7 days")
 
-                radio_option = ['None', 'Permutation Importance',
-                                'Partial Density Plot', 'All']
-                selected_explain = st.radio('Choose page:', radio_option)
+        button = st.markdown("""
+                            <style>
+                            div.stButton > button:first-child {
+                                  background-color: rgb(108, 133, 245);
+                                  height:3em; width:20%;
+                                  color:white;
+                            }
+                            </style>""", unsafe_allow_html=True)
 
-                if selected_explain == 'Permutation Importance':
-
-                    # firstly compute importance and then plot perm_importance _plot
-
-                    plot_perm_importance(test_x = X_test, test_y = y_test, score=score, ML_model='model2')
-                elif selected_explain == 'Partial Density Plot':
-
-                    read_txt_and_pdplot(feature=feat_col, test_X=X_test, ML_model='model2')
-                elif selected_explain == 'All':
-
-                    plot_perm_importance(test_x = X_test, test_y = y_test, score=score, ML_model='model2')
-
-                    # Read feature txt file and plot pdplot.
-
-                    read_txt_and_pdplot(feature=feat_col, test_X=X_test, ML_model='model2')
-                    
-                else:
-
-                    st.write('Click on any ML_explain to explain Model')
-
-            done_explaining = st.button('Done')
-
-            if done_explaining:
-                remove_files()
-
-        
-
-        # if selected Tutorial option
-    elif option == 'Tutorial':
-
-        st.sidebar.markdown(overview_desc)
-        st.write(fixed_head, unsafe_allow_html=True)
-        st.write('To save column names as txt file, copy and edit This simple code'
-                )
-        st.code(code, language='python')
-
-        st.write('To transform data from array to dataframe, copy and edit this simple code'
-                )
-        st.code(code2, language='python')
-
-        st.write("To save model to directory.")
-        st.code(code3, language='python')
+        go_button = st.button("Predict")
+        if go_button:
+            prediction_0 = model_0.investigate_predict(uuid)
+            prediction_7 = model_7.investigate_predict(uuid)
+            col1.metric("In the 0 days model the probability of the user being a web pro is:", str(str(100*round(prediction_0,3)) + '%'))
+            col1.metric("In the 7 days model the probability of the user being a web pro is:", str(str(100 * round(prediction_7, 3)) + '%'))
 
 
 if __name__ == '__main__':
